@@ -16,6 +16,9 @@ body {
 nav{
     background: #660034;
 }
+nav-item{
+    float: right;
+}
 footer{
     
     background: #e9ecef;
