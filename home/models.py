@@ -32,6 +32,7 @@ class OrderDetails(models.Model):
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     count = models.IntegerField(default=0)
 
+
 class Price(models.Model):
     kg = models.DecimalField()
     cost = models.PositiveIntegerField()
