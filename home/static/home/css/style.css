@@ -12,7 +12,19 @@ body {
     color: #828282;
     background: #fff;
 }
+.navbar{
+   background-color: #660034 !important;
 
+}
+.navbar-light .navbar-nav .nav-link   {
+    color: #f7f7f7 !important;
+}
+.navbar-light .navbar-brand {
+    color: #f8f9fa !important;
+}
+.nav-item{
+    float: right;
+}
 footer {
 
     background: #e9ecef;
