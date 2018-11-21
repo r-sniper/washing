@@ -14,6 +14,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=500, null=True, blank=True)
 
 
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE)

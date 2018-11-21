@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-<body>
+{#<body>#}
 {% block content %}
     <!--<div class="container-fluid" id="livesearch">
         <div class="input-group">
@@ -10,7 +10,7 @@
         </div><!-- /input-group -->
  <!--   </div><!-- /.col-lg-6 -->
 -->
-{% endblock %}
+
 
 
 <form>
@@ -18,29 +18,42 @@
 <div id="livesearch"></div>
 </form>
 
-</body>
 <script>
-function showResult(str) {
-  if (str.length==0) {
-    document.getElementById("livesearch").innerHTML="";
-    document.getElementById("livesearch").style.border="0px";
-    return;
-  }
-  if (window.XMLHttpRequest) {
-    // code for IE7+, Firefox, Chrome, Opera, Safari
-    xmlhttp=new XMLHttpRequest();
-  } else {  // code for IE6, IE5
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  xmlhttp.onreadystatechange=function() {
-    if (this.readyState==4 && this.status==200) {
-        console.log("Working");
-        document.getElementById("livesearch").innerHTML=this.responseText;
-      document.getElementById("livesearch").style.border="1px solid #A5ACB2";
-    }
-  }
-  //TODO ENTER URL HERE
-  xmlhttp.open("GET","livesearch.php?q="+str,true);
-  xmlhttp.send();
+{#function showResult(str) {#}
+{#  if (str.length==0) {#}
+{#    document.getElementById("livesearch").innerHTML="";#}
+{#    document.getElementById("livesearch").style.border="0px";#}
+{#    return;#}
+{#  }#}
+{#  if (window.XMLHttpRequest) {#}
+{#    // code for IE7+, Firefox, Chrome, Opera, Safari#}
+{#    xmlhttp=new XMLHttpRequest();#}
+{#  } else {  // code for IE6, IE5#}
+{#    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");#}
+{#  }#}
+{#  xmlhttp.onreadystatechange=function() {#}
+{#    if (this.readyState==4 && this.status==200) {#}
+{#        console.log("Working");#}
+{#        document.getElementById("livesearch").innerHTML=this.responseText;#}
+{#        document.getElementById("livesearch").style.border="1px solid #A5ACB2";#}
+{#    }#}
+{#  };#}
+{#  //TODO ENTER URL HERE#}
+{#  xmlhttp.open("GET","{% url 'home:get_customer' %}"+str,true);#}
+{#  xmlhttp.send();#}
+function showResult(value){
+    $.ajax({
+                type: "POST",
+                url: '{% url 'home:get_customer' %}',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'query': value
+                },
+                success: function (data) {
+                    console.log(data);
+                }
+            });
 }
 </script>
+
+{% endblock content %}
