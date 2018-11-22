@@ -17,9 +17,9 @@
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                                 </div>
-                                 <!-- Suggestions will be displayed in below div. -->
- 
-                                <div id="live_search_result"  class="suggestion-wrap">
+                                <!-- Suggestions will be displayed in below div. -->
+
+                                <div id="live_search_result" class="suggestion-wrap">
                                     <ul>
                                         <li></li>
                                         <li></li>
@@ -54,12 +54,12 @@
                 success: function (data) {
                     console.log(data);
                     $('.suggestion-wrap ul').empty();
-                      for (var i=0; i<data.length; ) {
-                        $('.suggestion-wrap ul').append('<li>'+data+'</li>');
-                      }  
-                }
-                error: function (data){
-                $('.suggestion-wrap ul').append('<li>'+"No results found!"+'</li>');
+                    for (var i = 0; i < data.length;) {
+                        $('.suggestion-wrap ul').append('<li>' + data + '</li>');
+                    }
+                },
+                error: function (data) {
+                    $('.suggestion-wrap ul').append('<li>' + "No results found!" + '</li>');
                 }
             });
         }
