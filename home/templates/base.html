@@ -152,7 +152,7 @@
                         <div class="form-group col-md-12">
                             <div class="sidebar-search">
                                 <div>
-                                    <div id="livesearch" class="input-group">
+                                    <div id="livesearch" class="input-group" onkeyup="showResult(this.value)">
                                         <input type="text" class="form-control search-menu" placeholder="Search...">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
@@ -186,19 +186,20 @@
 
 <!-- jQuery -->
 <script src="{% static 'home/js/jquery.min.js' %}"></script>
-<script src="../static/home/js/jquery.min.js"></script>
 
 <!-- Main -->
 <script src="{% static 'home/js/main.js' %}"></script>
-<script src="../static/home/js/sidebar.js"></script>
 
 <!-- Bootstrap -->
 <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
-<script src="../static/home/js/bootstrap.min.js"></script>
 
 <script src="{% static 'home/js/bootstrap.js' %}"></script>
+<!--
+<script src="../static/home/js/jquery.min.js"></script>
+<script src="../static/home/js/sidebar.js"></script>
+<script src="../static/home/js/bootstrap.min.js"></script>
 <script src="../static/home/js/bootstrap.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
+-->
 </html>
