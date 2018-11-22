@@ -1,16 +1,16 @@
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 {#<body>#}
 {% block content %}
 
-<form>
-<input type="text" size="30" onkeyup="showResult(this.value)">
-<div id="livesearch"></div>
-</form>
+    <form>
+        <input type="text" size="30" onkeyup="showResult(this.value)">
+        <div id="livesearch"></div>
+    </form>
 
-<script>
+    <script>
 
-function showResult(value){
-    $.ajax({
+        function showResult(value) {
+            $.ajax({
                 type: "POST",
                 url: '{% url 'home:get_customer' %}',
                 data: {
@@ -21,7 +21,7 @@ function showResult(value){
                     console.log(data);
                 }
             });
-}
-</script>
+        }
+    </script>
 
 {% endblock content %}
