@@ -148,28 +148,9 @@
                         </div>
                         </nav>
                         <!-- sidebar-wrapper  -->
-                        <main class="page-content">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <div class="sidebar-search">
-                                            <div>
-                                                <div id="livesearch" class="input-group"
-                                                     onkeyup="showResult(this.value)">
-                                                    <input type="text" class="form-control search-menu"
-                                                           placeholder="Search...">
-                                                    <div class="input-group-append">
-                                            <span class="input-group-text">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </main>
+                        {% block content %}
+
+                        {% endblock content %}
                         <!-- page-content" -->
                         </div>
                         <!---End of Bootstrap sidebar -->
@@ -207,4 +188,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 -->
+
+{% block scripts %}
+
+{% endblock scripts %}
+
 </html>
