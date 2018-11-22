@@ -11,9 +11,9 @@
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
-    <meta name="author" content=""/>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
 
     <link rel="stylesheet" href="../static/home/fonts/font-awesome-4.7.0/css/all.css">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -27,69 +27,67 @@
 </head>
 
 <body>
-<div>
     <div>
-        <!---Bootstrap Navbar -->
-        <nav class="navbar navbar-expand-sm   navbar-light bg-light justify-content-end">
-            <a class="navbar-brand" href="#">
-                <img src="/images/logo/QuickWash-navbar.svg" width="30" height="30" class="d-inline-block align-top">
-                QuickWash
+        <div>
+            <!---Bootstrap Navbar -->
+            <nav class="navbar navbar-expand-sm   navbar-light bg-light justify-content-end">
+                <a class="navbar-brand" href="#">
+                    <img src="/images/logo/QuickWash-navbar.svg" width="30" height="30" class="d-inline-block align-top"> QuickWash
+                </a>
+                <div class="collapse navbar-collapse mr-auto" id="navbarNavDropdown">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active mr-auto navbar-right">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item navbar-right">
+                            <a class="nav-link" href="#">Reciept</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reports
+                    </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Daily</a>
+                                <a class="dropdown-item" href="#">Monthly</a>
+                                <a class="dropdown-item" href="#">Quaterly</a>
+                            </div>
+                        </li>
+                        <li class="nav-item mr-auto">
+                            <a class="nav-link" href="#">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!---End of Bootstrap Navbar -->
+        </div>
+
+        <!-- Bootstrap sidebar -->
+
+        <div class="page-wrapper chiller-theme toggled">
+            <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+                <i class="fas fa-bars"></i>
             </a>
-            <div class="collapse navbar-collapse mr-auto" id="navbarNavDropdown">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active mr-auto navbar-right">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item navbar-right">
-                        <a class="nav-link" href="#">Reciept</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                            Reports
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Daily</a>
-                            <a class="dropdown-item" href="#">Monthly</a>
-                            <a class="dropdown-item" href="#">Quaterly</a>
-                        </div>
-                    </li>
-                    <li class="nav-item mr-auto">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <!---End of Bootstrap Navbar -->
-    </div>
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="sidebar-content">
 
-    <!-- Bootstrap sidebar -->
+                    <div class="sidebar-header">
 
-    <div class="page-wrapper chiller-theme toggled">
-        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-            <i class="fas fa-bars"></i>
-        </a>
-        <nav id="sidebar" class="sidebar-wrapper">
-            <div class="sidebar-content">
-
-                <div class="sidebar-header">
-
-                    <!-- sidebar-header  -->
-                    <!--
-            <div class="sidebar-search">
-                <div>
-                    <div class="input-group">
-                        <input type="text" class="form-control search-menu" placeholder="Search...">
-                        <div class="input-group-append">
-                            <span class="input-group-text">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </span>
+                        <!-- sidebar-header  -->
+                        <!--
+                <div class="sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            -->
-                    {% block search %}
+                -->
+                        {% blockcontent search %}
                         <!-- sidebar-search  -->
                         <div class="sidebar-menu">
                             <ul>
@@ -106,8 +104,8 @@
                                         <ul>
                                             <li>
                                                 <a href="#">Dashboard 1
-                                                    <!-- <span class="badge badge-pill badge-success">Pro</span> -->
-                                                </a>
+                                           <!-- <span class="badge badge-pill badge-success">Pro</span> -->
+                                        </a>
                                             </li>
                                             <li>
                                                 <a href="#">Dashboard 2</a>
@@ -143,31 +141,47 @@
                             </ul>
                         </div>
                         <!-- sidebar-menu  -->
-                        </div>
-                        <!-- sidebar-content  -->
-                        </div>
-                        </nav>
-                        <!-- sidebar-wrapper  -->
-                        {% block content %}
+                    </div>
+                    <!-- sidebar-content  -->
 
-                        {% endblock content %}
-                        <!-- page-content" -->
+            </nav>
+            <!-- sidebar-wrapper  -->
+            <main class="page-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="sidebar-search">
+                                <div>
+                                    <div id="livesearch" class="input-group" onkeyup="showResult(this.value)">
+                                        <input type="text" class="form-control search-menu" placeholder="Search...">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!---End of Bootstrap sidebar -->
-                    {% endblock search %}
-
-    <footer>
-
-        <div class="row copyright">
-            <div class="col-md-12 text-center">
-                <p>
-                    <small class="block">&copy; 2018 Quick Wash. All Rights Reserved.</small>
-                </p>
+                    </div>
+            </main>
+            <!-- page-content" -->
             </div>
-        </div>
+            <!---End of Bootstrap sidebar -->
+            {% endblock search %}
 
-    </footer>
-</div>
+            <footer>
+
+                <div class="row copyright">
+                    <div class="col-md-12 text-center">
+                        <p>
+                            <small class="block">&copy; 2018 Quick Wash. All Rights Reserved.</small>
+                        </p>
+                    </div>
+                </div>
+
+            </footer>
+            </div>
 </body>
 
 <!-- jQuery -->
@@ -180,17 +194,12 @@
 <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
 
 <script src="{% static 'home/js/bootstrap.js' %}"></script>
-<!--
+
 <script src="../static/home/js/jquery.min.js"></script>
 <script src="../static/home/js/sidebar.js"></script>
 <script src="../static/home/js/bootstrap.min.js"></script>
 <script src="../static/home/js/bootstrap.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
--->
-
-{% block scripts %}
-
-{% endblock scripts %}
 
 </html>
