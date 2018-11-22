@@ -54,13 +54,11 @@
                 success: function (data) {
                     console.log(data);
                     $('.suggestion-wrap ul').empty();
-                    for (var i = 0; i < data.length;) {
-                        $('.suggestion-wrap ul').append('<li>' + data + '</li>');
-                    }
-                },
-                error: function (data) {
-                    $('.suggestion-wrap ul').append('<li>' + "No results found!" + '</li>');
+                      for (var i=0; i<data.length; ) {
+                        $('.suggestion-wrap ul').append('<li>'+data+'</li>');
+                      }  
                 }
+
             });
         }
     </script>
