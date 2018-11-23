@@ -32,6 +32,7 @@
         <!---Bootstrap Navbar -->
         <nav class="navbar navbar-expand-sm   navbar-light bg-light justify-content-end">
             <a class="navbar-brand" href="#">
+{#                <img src="/images/logo/QuickWash-navbar.svg" width="30" height="30" class="d-inline-block align-top">#}
                 <img src="" width="30" height="30" class="d-inline-block align-top">
                 QuickWash
             </a>
@@ -40,11 +41,9 @@
                     <li class="nav-item active mr-auto navbar-right">
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
-                   
                     <li class="nav-item navbar-right">
                         <a class="nav-link" href="#">Reciept</a>
                     </li>
-                     <!--
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
@@ -56,7 +55,6 @@
                             <a class="dropdown-item" href="#">Quaterly</a>
                         </div>
                     </li>
-                    -->
                     <li class="nav-item mr-auto">
                         <a class="nav-link" href="#">Logout</a>
                     </li>
@@ -92,70 +90,71 @@
                 </div>
             </div>
             -->
-                    {% block search %}
-                        <!-- sidebar-search  -->
-                        <div class="sidebar-menu">
-                            <ul>
-                                <li class="header-menu">
-                                    <span>General</span>
-                                </li>
-                                <li class="sidebar-dropdown">
-                                    <a href="#">
-                                        <i class="fa fa-tachometer-alt"></i>
-                                        <span>Reciept</span>
-                                        <!-- <span class="badge badge-pill badge-danger">New</span>> -->
-                                    </a>
-                                    <div class="sidebar-submenu">
-                                        <ul>
-                                            <li>
-                                                <a href="#">Dashboard 1
-                                                    <!-- <span class="badge badge-pill badge-success">Pro</span> -->
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Dashboard 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Dashboard 3</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="header-menu">
-                                    <span>Extra</span>
-                                </li>
-                                <li class="sidebar-dropdown">
-                                    <a href="#">
-                                        <i class="fa fa-chart-line"></i>
-                                        <span>Reports</span>
-                                    </a>
-                                    <div class="sidebar-submenu">
-                                        <ul>
-                                            <li>
-                                                <a href="#">Daily</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Monthly</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Quaterly</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- sidebar-menu  -->
-                        </div>
-                        <!-- sidebar-content  -->
-                        </div>
-                        </nav>
-                        <!-- sidebar-wrapper  -->
+                    <!-- sidebar-search  -->
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li class="header-menu">
+                                <span>General</span>
+                            </li>
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                    <span>Reciept</span>
+                                    <!-- <span class="badge badge-pill badge-danger">New</span>> -->
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="#">Dashboard 1
+                                                <!-- <span class="badge badge-pill badge-success">Pro</span> -->
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Dashboard 2</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Dashboard 3</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="header-menu">
+                                <span>Extra</span>
+                            </li>
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-chart-line"></i>
+                                    <span>Reprots</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="#">Daily</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Monthly</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Quaterly</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content  -->
+            </div>
+        </nav>
+        <!-- sidebar-wrapper  -->
 
-                        <!-- page-content" -->
-                        </div>
-                        <!---End of Bootstrap sidebar -->
-                    {% endblock search %}
+        <!-- page-content" -->
+        {% block content %}
+        {% endblock content %}
+    </div>
+    <!---End of Bootstrap sidebar -->
+
 
     <footer>
 
