@@ -110,6 +110,7 @@
   
   .page-wrapper.toggled .sidebar-wrapper {
     left: 0px;
+    bottom: 0px;
     margin-top: 4.6%;
     margin-bottom: 0%;
   }
