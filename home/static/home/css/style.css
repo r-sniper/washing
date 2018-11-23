@@ -91,7 +91,7 @@
   /*----------------page-wrapper----------------*/
   
   .page-wrapper {
-    height: 100vh;
+    height: 80vh;
   }
   
   .page-wrapper .theme {
@@ -110,7 +110,8 @@
   
   .page-wrapper.toggled .sidebar-wrapper {
     left: 0px;
-    margin-top: 6.5%;
+    margin-top: 4.6%;
+    margin-bottom: 0%;
   }
   
   @media screen and (min-width: 768px) {
