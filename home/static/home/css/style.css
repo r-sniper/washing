@@ -100,22 +100,22 @@
 #show-sidebar {
   position: fixed;
   left: 0;
-  top: 10px;
-  border-radius: 0 4px 4px 0px;
-  width: 35px;
+  top: 1%;
+  border-radius: 0 1% 1% 0px;
+  width: 3.5%;
   transition-delay: 0.3s;
 }
 .page-wrapper.toggled #show-sidebar {
-  left: -40px;
+  left: -4%;
 }
 /*----------------sidebar-wrapper----------------*/
 .sidebar-wrapper {
-  width: 260px;
+  width: 26%;
   height: 95%;
   max-height: 95%;
   position: absolute;
   top: 0;
-  left: -300px;
+  left: -30%;
   z-index: 999;
 }
 .sidebar-wrapper ul {
@@ -138,7 +138,7 @@
 }
 /*--------------------sidebar-brand----------------------*/
 .sidebar-wrapper .sidebar-brand {
-  padding: 10px 20px;
+  padding: 1% 2%;
   display: flex;
   align-items: center;
 }
@@ -149,16 +149,16 @@
 }
 .sidebar-wrapper .sidebar-brand #close-sidebar {
   cursor: pointer;
-  font-size: 20px;
+  font-size: 2%;
 }
 /*--------------------sidebar-header----------------------*/
 .sidebar-wrapper .sidebar-header {
-  padding: 20px;
+  padding: 2%;
   overflow: hidden;
 }
 .sidebar-wrapper .sidebar-header .user-pic {
   float: left;
-  width: 60px;
+  width: 6%;
   padding: 2px;
   border-radius: 12px;
   margin-right: 15px;
@@ -189,16 +189,16 @@
 }
 /*-----------------------sidebar-search------------------------*/
 .sidebar-wrapper .sidebar-search > div {
-  padding: 10px 20px;
+  padding: 1% 2%;
 }
 /*----------------------sidebar-menu-------------------------*/
 .sidebar-wrapper .sidebar-menu {
-  padding-bottom: 10px;
+  padding-bottom: 1%;
 }
 .sidebar-wrapper .sidebar-menu .header-menu span {
   font-weight: bold;
   font-size: 14px;
-  padding: 15px 20px 5px 20px;
+  padding: 15px 2% 5px 2%;
   display: inline-block;
 }
 .sidebar-wrapper .sidebar-menu ul li a {
@@ -206,14 +206,14 @@
   width: 100%;
   text-decoration: none;
   position: relative;
-  padding: 8px 30px 8px 20px;
+  padding: 8px 3% 8px 2%;
 }
 .sidebar-wrapper .sidebar-menu ul li a i {
-  margin-right: 10px;
+  margin-right: 1%;
   font-size: 12px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
+  width: 3%;
+  height: 3%;
+  line-height: 3%;
   text-align: center;
   border-radius: 4px;
 }
@@ -255,7 +255,7 @@
   text-decoration: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin-right: 10px;
+  margin-right: 1%;
   font-size: 8px;
 }
 .sidebar-wrapper .sidebar-menu ul li a span.label, .sidebar-wrapper .sidebar-menu ul li a span.badge {
@@ -462,6 +462,7 @@ input {
 .nav-item{
   float: right;
 }
+
 /* live search */
 /* #live_search_result{
   -webkit-box-sizing: border-box;
@@ -525,14 +526,24 @@ input {
 }
 */
 /* live search */
+#search-wrap{
+  
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0% 0%!important;
+  margin-left: 0%;
+}
 #live-search-result{
   position: absolute;
   top: 100%;
   z-index: 1000;
   float: left;
-  min-width: 200px;
+  min-width: 20%;
   margin-left: 1em !important;
-  padding: 5px 0;
+  padding: 1% 0;
   font-size: 14px;
   text-align: left;
   text-indent: 2px;
@@ -542,21 +553,21 @@ input {
   border: 1px solid #ccc;
   border: 1px solid #dae0e5;
   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  -webkit-box-shadow: 0 1% 2% rgba(0,0,0,.175);
   box-shadow: 0 6px 12px rgba(0,0,0,.175);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   background-color: #2c3e50;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  -webkit-border-radius: 1%;
+  -moz-border-radius: 1%;
+  border-radius: 1%;
   font-family: 'Lato', sans-serif;
   color: #dae0e5;
   display: block;
-  max-height: 200px;
+  max-height: 20%;
   overflow: hidden;
-  min-height: 134px;
+  min-height: 15%;
   cursor: pointer;
   visibility: hidden;
 }
@@ -565,14 +576,20 @@ input {
   text-decoration: none;
   background-color: #f5f5f5;
 }
-
+.hidden {
+  visibility: hidden!important;
+  overflow: hidden;
+  width: 0%;
+  height: 0%;
+}
 /* footer */
 footer {
   background: #e9ecef;
   position: fixed;
   margin-top:auto;
-  padding: 10px;
+  padding: 1%;
+  font-size: 16;
   bottom: 0;
   width: 100%;
-  height: 40px;
+  height: 4%;
 }
