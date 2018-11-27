@@ -13,19 +13,21 @@
                                 <input type="text" class="form-control search-menu"
                                        placeholder="Search..." onkeyup="showResult(this.value)">
                                 <div class="input-group-append">
-                                            <span class="input-group-text">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </span>
-                                </div>
-                                <!-- Suggestions will be displayed in below div. -->
-
-                                <div id="live_search_result" class="suggestion-wrap">
-                                    <ul>
-                                        <li></li>
-                                        <li></li>
-                                    </ul>
+                                    <span class="input-group-text">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
                                 </div>
                             </div>
+                                <!-- Suggestions will be displayed in below div. -->
+                                <div class="row">
+                                    <div id="live-search-result" class="suggestion-wrap">
+                                        <ul>
+                                            <li></li>
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -43,6 +45,7 @@
     <script>
 
         function showResult(value) {
+            $("#live-search-result").css('visibility','visible');
             console.log(value);
             if (value.length > 0) {
                 let obj = document.getElementById('search_query');
@@ -55,8 +58,9 @@
                     },
                     async: true,
                     success: function (data) {
+                        
                         var live_obj = $('.suggestion-wrap ul');
-                        {#var div_obj = $('#live_search_result');#}
+                        {#var div_obj = $('#live-search-result');#}
                         {#div_obj.empty();#}
                         console.log(live_obj);
                         live_obj.empty();
