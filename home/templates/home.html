@@ -11,7 +11,7 @@
                         <div>
                             <div id="livesearch" class="input-group">
                                 <input type="text" class="form-control search-menu"
-                                       placeholder="Search..." onkeyup="showResult(this.value)">
+                                       placeholder="Search..." id="query">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="fa fa-search" aria-hidden="true"></i>
@@ -43,9 +43,11 @@
 {% block scripts %}
 
     <script>
+        $(document).on('input', '.search-menu', function () {
 
-        function showResult(value) {
+            console.log('Function called');
             $("#live-search-result").css('visibility', 'visible');
+            let value = this.value;
             console.log(value);
             if (value.length > 0) {
                 let obj = document.getElementById('search_query');
@@ -76,7 +78,13 @@
                     }
                 })
             }
-        }
+
+        });
+    </script>
+
+    <script>
+
+
     </script>
 
 {% endblock scripts %}
