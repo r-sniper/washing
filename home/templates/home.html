@@ -56,6 +56,10 @@
                     async: true,
                     success: function (data) {
                         var live_obj = $('.suggestion-wrap ul');
+                        {#var div_obj = $('#live_search_result');#}
+                        {#div_obj.empty();#}
+                        console.log(live_obj);
+                        live_obj.empty();
                         console.log(data);
                         live_obj.innerText = '';
                         let customers = JSON.parse(data);
