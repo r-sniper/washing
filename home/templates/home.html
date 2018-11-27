@@ -18,16 +18,16 @@
                                     </span>
                                 </div>
                             </div>
-                                <!-- Suggestions will be displayed in below div. -->
-                                <div class="row">
-                                    <div id="live-search-result" class="suggestion-wrap">
-                                        <ul>
-                                            <li></li>
-                                            <li></li>
-                                        </ul>
-                                    </div>
+                            <!-- Suggestions will be displayed in below div. -->
+                            <div class="row" style="margin-left: 0!important;">
+                                <div id="live-search-result" class="suggestion-wrap">
+                                    <ul>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
                                 </div>
-                            
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
     <script>
 
         function showResult(value) {
-            $("#live-search-result").css('visibility','visible');
+            $("#live-search-result").css('visibility', 'visible');
             console.log(value);
             if (value.length > 0) {
                 let obj = document.getElementById('search_query');
@@ -58,7 +58,7 @@
                     },
                     async: true,
                     success: function (data) {
-                        
+
                         var live_obj = $('.suggestion-wrap ul');
                         {#var div_obj = $('#live-search-result');#}
                         {#div_obj.empty();#}
