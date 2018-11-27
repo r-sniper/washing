@@ -43,24 +43,31 @@
     <script>
 
         function showResult(value) {
-            {#let obj = document.getElementById('search_query');#}
-            $.ajax({
-                type: "POST",
-                url: '{% url 'home:get_customer' %}',
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'query': value
-                },
-                success: function (data) {
-                    
-                    console.log(data);
-                    $('.suggestion-wrap ul').empty();
-                      for (var i=0; i<data.length; ) {
-                        $('.suggestion-wrap ul').append('<li>'+data+'</li>');
-                      }  
-                }
+            console.log(value);
+            if (value.length > 0) {
+                let obj = document.getElementById('search_query');
+                $.ajax({
+                    type: "POST",
+                    url: '{% url 'home:get_customer' %}',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'query': value
+                    },
+                    async: true,
+                    success: function (data) {
+                        var live_obj = $('.suggestion-wrap ul');
+                        console.log(data);
+                        live_obj.innerText = '';
+                        let customers = JSON.parse(data);
+                        for (var key in customers) {
+                            console.log(customers[key]['name']);
+                            live_obj.append('<li>' + customers[key]['name'] + '</li>');
 
-            });
+                        }
+
+                    }
+                })
+            }
         }
     </script>
 
