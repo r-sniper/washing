@@ -27,3 +27,6 @@ def get_customer(request):
 
     else:
         return HttpResponse('Error:Not ajax')
+
+def get_reports(request):
+    return render(request, 'reports.html')
