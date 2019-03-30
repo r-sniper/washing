@@ -55,5 +55,8 @@ def new_order(request,customer_id):
         customer_obj = Customer.objects.filter(id=c_id)
         if len(customer_obj) == 1:
             customer_obj = customer_obj[0]
+            return render(request,'new_order.html',{
+                'customer_obj':customer_obj
+            })
         else:
             return HttpResponse('No objects found with that id')
