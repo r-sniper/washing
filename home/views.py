@@ -47,12 +47,12 @@ def customer_registration(request):
         return HttpResponse('Not Post')
 
 
-def new_order(request):
+def new_order(request,customer_id):
     if request.method == 'POST':
         kg = request.POST.get('kg')
     else:
-        customer_id = request.GET.get('customer_id')
-        customer_obj = Customer.objects.filter(id=customer_id)
+        c_id = int(customer_id)
+        customer_obj = Customer.objects.filter(id=c_id)
         if len(customer_obj) == 1:
             customer_obj = customer_obj[0]
         else:
