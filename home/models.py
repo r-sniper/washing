@@ -8,11 +8,11 @@ class UserDetails(models.Model):
 
 
 class Customer(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=False)
     mobile = models.CharField(max_length=10)
     email = models.EmailField(null=True, blank=True)
     address = models.CharField(max_length=500, null=True, blank=True)
-
+    # date_created = models.DateField()
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

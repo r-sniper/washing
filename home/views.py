@@ -43,14 +43,19 @@ def customer_registration(request):
         cust_obj = Customer.objects.create(name=name, email=email, mobile=mobile, address=address)
 
         return HttpResponse('Successfully registered')
-
-
+    else:
+        return HttpResponse('Not Post')
 
 
 def new_order(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         kg = request.POST.get('kg')
+    else:
+        customer_id = request.GET.get('customer_id')
+        customer_obj = Customer.objects.filter(id=customer_id)
+        if len(customer_obj) == 1:
+            customer_obj = customer_obj[0]
+        else:
+            return HttpResponse('No objects found with that id')
 
-
-
-def get_cost(re)
+# def get_cost(re)
