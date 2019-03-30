@@ -57,5 +57,3 @@ def new_order(request,customer_id):
             customer_obj = customer_obj[0]
         else:
             return HttpResponse('No objects found with that id')
-
-# def get_cost(re)
