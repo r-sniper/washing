@@ -13,7 +13,7 @@ urlpatterns = [
     # /get_reports
     url(r'^reports/$', views.get_reports, name='get_reports'),
     # /new_order
-    url(r'^new_order/$', views.new_order, name='new_order'),
+    url(r'^new_order$', views.new_order, name='new_order'),
     url(r'^register_customer/$', views.customer_registration, name='register_customer'),
 
 ]
