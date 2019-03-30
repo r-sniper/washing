@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^get_customer/$', views.get_customer, name='get_customer'),
     # /get_reports
     url(r'^reports/$', views.get_reports, name='get_reports'),
+    url(r'^register_customer/$', views.customer_registration, name='register_customer'),
+
 ]

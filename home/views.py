@@ -53,4 +53,4 @@ def new_order(request):
 
 
 
-def get_cost(re)
+# def get_cost(re)
