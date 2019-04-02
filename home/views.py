@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import json
 # Create your views here.
-from home.models import Customer
+from home.models import Customer, Price
 
 
 def home_page(request):
@@ -47,16 +47,22 @@ def customer_registration(request):
         return HttpResponse('Not Post')
 
 
-def new_order(request,customer_id):
+def new_order(request, customer_id):
     if request.method == 'POST':
         kg = request.POST.get('kg')
+
     else:
         c_id = int(customer_id)
         customer_obj = Customer.objects.filter(id=c_id)
         if len(customer_obj) == 1:
             customer_obj = customer_obj[0]
-            return render(request,'new_order.html',{
-                'customer_obj':customer_obj
+            all_price = Price.objects.all()
+            price_json = {}
+            for each_price in all_price:
+                price_json[each_price.kg] = each_price.cost
+            return render(request, 'new_order.html', {
+                'customer_obj': customer_obj,
+                'price_json': json.dumps(price_json),
             })
         else:
             return HttpResponse('No objects found with that id')
