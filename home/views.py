@@ -1,9 +1,11 @@
+import datetime
+
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 import json
 # Create your views here.
-from home.models import Customer, Price
+from home.models import Customer, Price, Order
 
 
 def home_page(request):
@@ -47,16 +49,16 @@ def customer_registration(request):
 
 
 def new_order(request, customer_id):
-    if request.method == 'POST':
-        kg = request.POST.get('kg')
-        current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
-        print(current_price.cost)
-
-
-    else:
-        c_id = int(customer_id)
-        customer_obj = Customer.objects.filter(id=c_id)
-        if len(customer_obj) == 1:
+    c_id = int(customer_id)
+    customer_obj = Customer.objects.filter(id=c_id)
+    if len(customer_obj) == 1:
+        if request.method == 'POST':
+            kg = request.POST.get('kg')
+            current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
+            print(current_price.cost)
+            order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date)
+            return HttpResponse('Order saved with id' + str(order_obj.pk))
+        else:
             customer_obj = customer_obj[0]
             all_price = Price.objects.all()
             price_json = {}
@@ -66,5 +68,5 @@ def new_order(request, customer_id):
                 'customer_obj': customer_obj,
                 'price_jsoxn': json.dumps(price_json),
             })
-        else:
-            return HttpResponse('No objects found with that id')
+    else:
+        return HttpResponse('No objects found with that id')

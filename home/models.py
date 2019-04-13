@@ -15,9 +15,10 @@ class Customer(models.Model):
     is_active = models.BooleanField(default=True)
     # date_created = models.DateField()
 
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, null=True)
     kg = models.DecimalField(max_digits=6, decimal_places=2)
     received_date = models.DateField()
     delivery_date = models.DateField(null=True, blank=True)
