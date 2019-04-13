@@ -7,7 +7,7 @@ from home.models import Customer, Price
 
 
 def home_page(request):
-    return render(request, 'home.html')
+    return render(request, 'new_base.html')
 
 
 def get_customer(request):
