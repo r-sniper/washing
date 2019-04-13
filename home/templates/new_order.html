@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <form action="{% url 'home:register_customer' %}"  method="POST">
+            <form action="{% url 'home:new_order' customer_id=customer_obj.id %}"  method="POST">
                 {% csrf_token %}
                 <div class="row">
 
@@ -67,10 +67,10 @@
 
                         <div class="form-control">
 
-                            <input id="total_weight" name="total_weight" type="number">
+                            <input id="kg" name="kg" type="number">
                         </div>
                         <br>
-                        <input class="btn btn-dark" name="total_kg_button" value="Submit">
+                        <input type="submit" class="btn btn-dark" name="total_kg_button" value="Submit">
                         <input name="customer_id" value="{{ customer_obj.id }}" hidden>
                     </div>
 
