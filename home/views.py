@@ -51,6 +51,8 @@ def customer_registration(request):
 def new_order(request, customer_id):
     c_id = int(customer_id)
     customer_obj = Customer.objects.filter(id=c_id)
+    customer_obj = customer_obj[0]
+
     if len(customer_obj) == 1:
         if request.method == 'POST':
             kg = request.POST.get('kg')
@@ -59,14 +61,14 @@ def new_order(request, customer_id):
             order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date)
             return HttpResponse('Order saved with id' + str(order_obj.pk))
         else:
-            customer_obj = customer_obj[0]
             all_price = Price.objects.all().order_by('-kg')
             price_json = {}
             for each_price in all_price:
-                price_json[str(each_price.kg)] = each_price.cost
+
+                price_json[each_price.kg] = each_price.cost
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
-                'price_json': json.dumps(price_json),
+                'price_jsoxn': json.dumps(price_json),
             })
     else:
         return HttpResponse('No objects found with that id')
