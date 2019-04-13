@@ -4,7 +4,6 @@
 
 <head>
     <meta charset="utf-8">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Washing</title>
 
@@ -19,11 +18,10 @@
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 
     <!--  Bootstrap CSS  -->
-    <link rel="stylesheet" href="../static/home/css/bootstrap.css">
+    <link rel="stylesheet" href="{% static '/home/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static '/home/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '/home/css/daterangepicker.css' %}">
 
-    <!--    CSS  -->
-    <link rel="stylesheet" href="../static/home/css/style.css">
-    <link rel="stylesheet" href="../static/home/css/daterangepicker.css">
     <!--
     <link rel="stylesheet" type="text/css" href="{% static 'home/css/table.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'home/css/perfect-scrollbar/perfect-scrollbar.css' %}">
@@ -119,6 +117,12 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </li>
+                            <li class="sidebar-dropdown">
+                                <a href="{% url 'home:home_page' %}">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                    <span>New Order</span>
+                                </a>
                             </li>
                             <li class="header-menu">
                                 <span>Extra</span>

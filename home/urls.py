@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^new_order/(?P<customer_id>[0-9]+)/$', views.new_order, name='new_order'),
     url(r'^register_customer/$', views.customer_registration, name='register_customer'),
 
+
 ]

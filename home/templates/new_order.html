@@ -1,10 +1,236 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{#<body>#}
+{% block content %}
+
+    {#    <form>#}
+    <main class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-md-6 " style="height: 100%">
+
+                    <div class="sidebar-search">
+                        <div>
+                            <div id="livesearch" class="input-group">
+
+                                <input type="text" class="form-control search-menu" autocomplete="off"
+                                       placeholder="Enter Name or Phone number..." id="query">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">+
+                                </button>
+
+                            </div>
+                            <!-- Suggestions will be displayed in below div. -->
+                            <div id="search-wrap" class="hidden">
+                                <div id="live-search-result" class="suggestion-wrap">
+                                    <ul>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-1"></div>
+                <div class="form-group col-md-5">
+                    <div class="row">
+                        <label>Name: {{ customer_obj.name }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Mobile: {{ customer_obj.mobile }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Email: {{ customer_obj.email }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Address: {{ customer_obj.address }}</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <form action="{% url 'home:register_customer' %}"  method="POST">
+                {% csrf_token %}
+                <div class="row">
+
+                    <div class="col-md-7"></div>
+
+                    <div class="form-group">
+
+                        <label for="total_weight"><b>Total Kgs: </b></label>
+
+                        <div class="form-control">
+
+                            <input id="total_weight" name="total_weight" type="number">
+                        </div>
+                        <br>
+                        <input class="btn btn-dark" name="total_kg_button" value="Submit">
+                        <input name="customer_id" value="{{ customer_obj.id }}" hidden>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-9"></div>
+                    <b>OR</b>
+                </div>
+                <div class="row">
+                    <div class="col-md-7"></div>
+
+                    <div class="form-group">
+<br>
+                        <input class="btn btn-dark" name="cloth_wise_button" value="Enter Cloth wise">
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </main>
+    {#    </form>#}
+
+    <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <form action="{% url 'home:register_customer' %}" onsubmit="register_request(event);" method="POST">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">New Customer</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-5">
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <label for="name">Name *</label>
+                                    <input name="name" required type="text" class="form-control">
+                                </div>
+
+                                <div class="row">
+                                    <label for="mobile">Phone Number *</label>
+                                    <input id='mobile' name="mobile" required type="number" class="form-control">
+                                </div>
+
+                                <div class="row">
+                                    <label for="email">Email</label>
+
+                                    <input id="email" name="email" type="email" class="form-control">
+
+                                </div>
+                                <div class="row">
+                                    <label for="address">Address</label>
+
+                                    <input id="addresss" name="addresss" type="text" class="form-control">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" name="register_btn" class="btn btn-primary">
+                            Register
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+    <script>
+        $('#live-search-result').on('click', 'li', function () {
+
+            document.location.href = '/new_order/' + this.id + '/';
+        })
+    </script>
+
+    <script>
+        function register_request(e) {
+            e.preventDefault();
+            let name = document.getElementById('name');
+            let mobile = document.getElementById('mobile');
+            let email = document.getElementById('email');
+            let address = document.getElementById('address');
+            var saveData = $.ajax({
+                type: 'POST',
+                url: "{% url 'home:register_customer' %}",
+                data: {
+
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'name': name,
+                    'mobile': mobile,
+                    'email': email,
+                    'address': address
+                },
+                dataType: "text",
+                success: function (resultData) {
+                    swal("Success", resultData, 'success');
+                    $('#myModal').modal('hide');
+                }
+            });
+            saveData.error(function () {
+                swal("Error", "Something went wrong", 'error');
+            });
+        }
+    </script>
+
+    <script>
+        $(document).on('input', '.search-menu', function () {
+
+            console.log('Function called');
+            $("#live-search-result").css('visibility', 'visible');
+            let value = this.value;
+            console.log(value);
+            if (value.length > 0) {
+                let obj = document.getElementById('search_query');
+                $.ajax({
+                    type: "POST",
+                    url: '{% url 'home:get_customer' %}',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'query': value
+                    },
+                    async: true,
+                    success: function (data) {
+
+                        var live_obj = $('.suggestion-wrap ul');
+                        {#var div_obj = $('#live-search-result');#}
+                        {#div_obj.empty();#}
+                        console.log(live_obj);
+                        live_obj.empty();
+                        console.log(data);
+                        live_obj.innerText = '';
+                        let customers = JSON.parse(data);
+                        for (var key in customers) {
+                            console.log(customers[key]['name']);
+                            live_obj.append('<li id=' + key + '>' + customers[key]['name'] + ' ' + customers[key]['mobile'] + '</li>');
+
+                        }
+
+                    }
+                })
+            }
+
+        });
+    </script>
+
+    <script>
+
+
+    </script>
+
+{% endblock scripts %}
