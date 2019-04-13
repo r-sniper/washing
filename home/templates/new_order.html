@@ -6,8 +6,9 @@
     <main class="page-content">
         <div class="container-fluid">
             <div class="row">
-                <div class="form-group col-md-12">
-                    <div class="sidebar-search" style="width: 50% !important;">
+                <div class="form-group col-md-6 " style="height: 100%">
+
+                    <div class="sidebar-search">
                         <div>
                             <div id="livesearch" class="input-group">
 
@@ -18,13 +19,13 @@
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </span>
                                 </div>
-                                <div class="col-md-1">
-                                    <button class="btn btn-success" data-toggle="modal" data-target="#myModal">+
-                                    </button>
-                                </div>
+                                <div class="col-md-1"></div>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">+
+                                </button>
+
                             </div>
                             <!-- Suggestions will be displayed in below div. -->
-                            <div id="search-wrap" class="row hidden" style="margin: .5% 0!important;">
+                            <div id="search-wrap" class="hidden">
                                 <div id="live-search-result" class="suggestion-wrap">
                                     <ul>
                                         <li></li>
@@ -35,7 +36,61 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-1"></div>
+                <div class="form-group col-md-5">
+                    <div class="row">
+                        <label>Name: {{ customer_obj.name }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Mobile: {{ customer_obj.mobile }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Email: {{ customer_obj.email }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Address: {{ customer_obj.address }}</label>
+                    </div>
+
+                </div>
             </div>
+
+            <form action="{% url 'home:register_customer' %}"  method="POST">
+                {% csrf_token %}
+                <div class="row">
+
+                    <div class="col-md-7"></div>
+
+                    <div class="form-group">
+
+                        <label for="total_weight"><b>Total Kgs: </b></label>
+
+                        <div class="form-control">
+
+                            <input id="total_weight" name="total_weight" type="number">
+                        </div>
+                        <br>
+                        <input class="btn btn-dark" name="total_kg_button" value="Submit">
+                        <input name="customer_id" value="{{ customer_obj.id }}" hidden>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-9"></div>
+                    <b>OR</b>
+                </div>
+                <div class="row">
+                    <div class="col-md-7"></div>
+
+                    <div class="form-group">
+<br>
+                        <input class="btn btn-dark" name="cloth_wise_button" value="Enter Cloth wise">
+                    </div>
+                </div>
+            </form>
+
+
         </div>
     </main>
     {#    </form>#}
@@ -61,20 +116,20 @@
                                 </div>
 
                                 <div class="row">
-                                    <label for="number">Phone Number *</label>
-                                    <input name="mobile" required type="number" class="form-control">
+                                    <label for="mobile">Phone Number *</label>
+                                    <input id='mobile' name="mobile" required type="number" class="form-control">
                                 </div>
 
                                 <div class="row">
                                     <label for="email">Email</label>
 
-                                    <input name="email" type="email" class="form-control">
+                                    <input id="email" name="email" type="email" class="form-control">
 
                                 </div>
                                 <div class="row">
                                     <label for="address">Address</label>
 
-                                    <input name="addresss" type="text" class="form-control">
+                                    <input id="addresss" name="addresss" type="text" class="form-control">
 
                                 </div>
                             </div>
@@ -97,10 +152,10 @@
 
 {% block scripts %}
     <script>
-    $('#live-search-result').on('click', 'li', function () {
+        $('#live-search-result').on('click', 'li', function () {
 
-       document.location.href = '/new_order/'+this.id+'/';
-    })
+            document.location.href = '/new_order/' + this.id + '/';
+        })
     </script>
 
     <script>
@@ -162,7 +217,7 @@
                         let customers = JSON.parse(data);
                         for (var key in customers) {
                             console.log(customers[key]['name']);
-                            live_obj.append('<li id='+key+'>' + customers[key]['name'] +' '+customers[key]['mobile']  + '</li>');
+                            live_obj.append('<li id=' + key + '>' + customers[key]['name'] + ' ' + customers[key]['mobile'] + '</li>');
 
                         }
 

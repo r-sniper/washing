@@ -24,7 +24,6 @@ def get_customer(request):
             return HttpResponse(json.dumps(customer_dict))
         else:
             return HttpResponse('Error:Null query')
-
     else:
         return HttpResponse('Error:Not ajax')
 
@@ -50,6 +49,9 @@ def customer_registration(request):
 def new_order(request, customer_id):
     if request.method == 'POST':
         kg = request.POST.get('kg')
+        current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
+        print(current_price.cost)
+
 
     else:
         c_id = int(customer_id)
@@ -62,7 +64,7 @@ def new_order(request, customer_id):
                 price_json[each_price.kg] = each_price.cost
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
-                'price_json': json.dumps(price_json),
+                'price_jsoxn': json.dumps(price_json),
             })
         else:
             return HttpResponse('No objects found with that id')
