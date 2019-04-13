@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <form action="{% url 'home:new_order' customer_id=customer_obj.id %}"  method="POST">
+            <form action="{% url 'home:new_order' customer_id=customer_obj.id %}"  method="GET">
                 {% csrf_token %}
                 <div class="row">
 
@@ -85,7 +85,7 @@
 
                     <div class="form-group">
 <br>
-                        <input class="btn btn-dark" name="cloth_wise_button" value="Enter Cloth wise">
+                        <input type="submit" class="btn btn-dark" name="cloth_wise_button" value="Enter Cloth wise">
                     </div>
                 </div>
             </form>
@@ -94,6 +94,9 @@
         </div>
     </main>
     {#    </form>#}
+    <script>
+    console.log({{ price_json }})
+    </script>
 
     <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">

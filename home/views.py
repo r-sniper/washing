@@ -61,10 +61,10 @@ def new_order(request, customer_id):
             all_price = Price.objects.all()
             price_json = {}
             for each_price in all_price:
-                price_json[each_price.kg] = each_price.cost
+                price_json[str(each_price.kg)] = each_price.cost
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
-                'price_jsoxn': json.dumps(price_json),
+                'price_json': json.dumps(price_json),
             })
         else:
             return HttpResponse('No objects found with that id')
