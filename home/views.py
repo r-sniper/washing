@@ -63,6 +63,7 @@ def new_order(request, customer_id):
             all_price = Price.objects.all().order_by('-kg')
             price_json = {}
             for each_price in all_price:
+
                 price_json[each_price.kg] = each_price.cost
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
