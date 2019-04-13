@@ -56,10 +56,10 @@ def new_order(request, customer_id):
         customer_obj = customer_obj[0]
 
         if request.method == 'POST':
-            kg = request.POST.get('kg')
+            kg = int(request.POST.get('kg'))
             current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
             print(current_price.cost)
-            order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date)
+            order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today())
             return HttpResponse('Order saved with id' + str(order_obj.pk))
         else:
             all_price = Price.objects.all().order_by('-kg')
