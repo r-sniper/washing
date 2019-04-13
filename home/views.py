@@ -51,9 +51,10 @@ def customer_registration(request):
 def new_order(request, customer_id):
     c_id = int(customer_id)
     customer_obj = Customer.objects.filter(id=c_id)
-    customer_obj = customer_obj[0]
 
     if len(customer_obj) == 1:
+        customer_obj = customer_obj[0]
+
         if request.method == 'POST':
             kg = request.POST.get('kg')
             current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
@@ -64,7 +65,6 @@ def new_order(request, customer_id):
             all_price = Price.objects.all().order_by('-kg')
             price_json = {}
             for each_price in all_price:
-
                 price_json[each_price.kg] = each_price.cost
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
