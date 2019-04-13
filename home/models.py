@@ -12,6 +12,7 @@ class Customer(models.Model):
     mobile = models.CharField(max_length=10)
     email = models.EmailField(null=True, blank=True)
     address = models.CharField(max_length=500, null=True, blank=True)
+    is_active = models.BooleanField(default=True)
     # date_created = models.DateField()
 
 class Order(models.Model):
