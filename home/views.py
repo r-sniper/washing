@@ -50,7 +50,7 @@ def customer_registration(request):
 def new_order(request, customer_id):
     if request.method == 'POST':
         kg = request.POST.get('kg')
-
+        
     else:
         c_id = int(customer_id)
         customer_obj = Customer.objects.filter(id=c_id)
