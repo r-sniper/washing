@@ -73,7 +73,8 @@
                         <label for="kg"><b>Total Kgs: </b></label>
 
                         <div class="form-control">
-                            <input id="kg" name="kg" min="0" step="any" pattern="^\d*(\.\d{0,2})?$" required onkeyup="calc_price(this.value);" type="number">
+                            <input id="kg" name="kg" min="0" step="any" pattern="^\d*(\.\d{0,2})?$" required
+                                   onkeyup="calc_price(this.value);" type="number">
                         </div>
                         <br>
                         <input type="submit" class="btn btn-dark" name="only_kg" value="Submit">
@@ -92,8 +93,44 @@
                     <div class="form-group">
                         <br>
 
-                        <input onclick="cloth_wise();" class="btn btn-dark" name="cloth_wise_button" value="Enter Cloth wise">
+                        <input onclick="cloth_wise();" class="btn btn-dark" name="cloth_wise_button"
+                               value="Enter Cloth wise">
 
+
+                        <div id="ind_div" style="visibility: hidden;">
+
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Cloth Type</label>
+                                <select class="form-control" id="exampleFormControlSelect1">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="form-control">
+                                        <input id="kg" name="kg" min="0" step="any" pattern="^\d*(\.\d{0,2})?$" required
+                                               onkeyup="individual_kg();" type="number">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button class="btn btn-success">+</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+
+
+                            <br> <br>
+                            <input type="submit" onclick="calc_ind();" class="btn btn-dark" name="ind_kg"
+                                   value="Submit">
+                            <input onclick="total_wise();" class="btn btn-dark" name="total_wise_button"
+                                   value="Enter Total KG Only">
+                        </div>
                     </div>
                 </div>
             </form>
@@ -101,13 +138,31 @@
 
         </div>
     </main>
+
     {#    </form>#}
-    <script>function cloth_wise() {
-        cloth_wise_button = document.getElementById("cloth_wise_button");
+    <script>function total_wise() {
+        {#document.getElementById("total_wise_button").style.display = 'none';#}
+        {#document.getElementById("ind_div").innerText = '';#}
+        cloth_wise_button = document.getElementsByName("cloth_wise_button")[0];
+        cloth_wise_button.style.display = 'block';
+        document.getElementById("ind_div").style.visibility = 'hidden';
+
+        cloth_wise_button = document.getElementsByName("only_kg")[0];
+        cloth_wise_button.style.display = 'block';
+    }
+
+    function cloth_wise() {
+
+        cloth_wise_button = document.getElementsByName("cloth_wise_button")[0];
+        cloth_wise_button.style.display = 'none';
+        cloth_wise_button = document.getElementsByName("only_kg")[0];
         cloth_wise_button.style.display = 'none';
         document.getElementById("or_div").innerText = "";
+        document.getElementById("ind_div").style.visibility = 'visible';
+        document.getElementById("total_wise_button").style.display = 'block';
         document.getElementsByName("only_kg")[0].style.display = 'none';
     }
+
 
     function calc_price(kgs) {
         price_span = document.getElementById('price_span');
@@ -116,7 +171,7 @@
         price_json = JSON.parse(price_json);
         cur_key = 1;
         {#console.log(price_json);#}
-        if (entered_kg>=0) {
+        if (entered_kg >= 0) {
             for (kg_key in price_json) {
                 if (kg_key >= entered_kg) {
                     cur_key = kg_key;
@@ -127,10 +182,10 @@
             }
             console.log(parseFloat(price_json[cur_key]));
             console.log(parseFloat(entered_kg));
-            price_span.value = (parseFloat(price_json[cur_key])*parseFloat(entered_kg)).toFixed(2);
+            price_span.value = (parseFloat(price_json[cur_key]) * parseFloat(entered_kg)).toFixed(2);
 
-        }else if(entered_kg.toString() == "NaN"){
-             price_span.value = 0;
+        } else if (entered_kg.toString() == "NaN") {
+            price_span.value = 0;
         }
         else {
             price_span.value = 'Invalid';
