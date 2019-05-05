@@ -74,10 +74,10 @@ def new_order(request, customer_id):
             print(current_price)
             order_obj = Order(customer=customer_obj, kg=kg, received_date=datetime.date.today(),
                               price=current_price)
-            if request.POST.get('only_kg'):
-                order_obj.save()
-            else:
+            if request.POST.get('clothes'):
                 print('yet to write')
+            else:
+                order_obj.save()
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
                 'price_json': json.dumps(price_json),
