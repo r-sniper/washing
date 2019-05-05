@@ -55,7 +55,8 @@
                 </div>
             </div>
 
-            <form action="{% url 'home:new_order' customer_id=customer_obj.id %}" method="POST" id="order_form">
+            <form action="{% url 'home:new_order' customer_id=customer_obj.id %}" method="POST" id="order_form"
+                  onsubmit="return confirm_form(event);">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-md-6">
@@ -67,53 +68,43 @@
 
                         <div class="form-group" id="or_div" style="display: none;">
                             <div class="row">
-                                <div class="col-md-9 form-group">
+                                <div class="col-md-4 form-group">
                                     <label for="qty">Cloth Type</label>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
+                                    <label for="qty">Quantity</label>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="qty">Cloth Type</label>
+                                </div>
+                                <div class="col-md-2 form-group">
                                     <label for="qty">Quantity</label>
                                 </div>
                             </div>
-                            {% for key, value in category.items %}
-                                {% if value %}
+                            {% for each in category %}
                                 <div class="row">
-                                    <div class="col-md-9">
-                                        <div class="form-group">
-                                             <input readonly class="form-control" value="{{ key }}" name="cloth_{{ key }}">
-                                            {#                                            <select class="form-control" id="exampleFormControlSelect1">#}
-                                            {#                                                <option>1</option>#}
-                                            {#                                                <option>2</option>#}
-                                            {#                                                <option>3</option>#}
-                                            {#                                                <option>4</option>#}
-                                            {#                                                <option>5</option>#}
-                                            {#                                            </select>#}
-                                            {#                                            <input type="text" readonly class="form-control">#}
-
+                                    {% for i in each %}
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input readonly class="form-control" value="{{ i }}"
+                                                       name="cloth_{{ forloop.counter }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-
-                                            {#                                        <div class="">#}
-                                            <input name="qty_{{ key }}" min="0" pattern="^\d*(\.\d{0,2})?$"
-                                                   onkeyup="individual_kg();" type="number" class="form-control">
-                                            {#                                        </div>#}
-
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input name="qty_{{ forloop.counter }}" min="0"
+                                                       pattern="^\d*(\.\d{0,2})?$"
+                                                       onkeyup="individual_kg();" type="number" class="form-control"
+                                                       value="0">
+                                            </div>
                                         </div>
-                                    </div>
-
-
+                                    {% endfor %}
                                 </div>
-                                {#                                <div class="col-md-1">#}
-                                {% endif %}
                             {% endfor %}
-                            <button class="btn btn-success">+</button>
-                            {#                                </div>#}
-                            <br>
                             <hr>
                             {#                            <br> <br>#}
                             <br>
-                            <input type="submit" onclick="calc_ind();" class="btn btn-dark" name="ind_kg"
+                            <input type='submit' class="btn btn-dark" name="ind_kg"
                                    value="Submit">
                             <input onclick="total_wise();" class="btn btn-dark" name="total_wise_button"
                                    id="total_wise_button"
@@ -131,7 +122,7 @@
                         <label for="kg"><b>Total Kgs: </b></label>
 
                         <div class="form-control">
-                            <input id="kg" name="kg" min="0" pattern="^\d*(\.\d{0,2})?$" required
+                            <input id="kg" name="kg" min="0" pattern="^\d*(\.\d{0,2})?$" required="required"
                                    onkeyup="calc_price(this.value);" type="number">
                         </div>
                         <br>
@@ -140,8 +131,10 @@
                         OR
 
                         <br>
-                        <input onclick="cloth_wise();" class="btn btn-dark" name="cloth_wise_button"
+                        <input onclick="cloth_wise();" class="btn btn-dark" name="clothwise_button"
                                value="Enter Cloth wise">
+
+                        <input type="hidden" name="selected" id="selected">
                     </div>
                 </div>
 
@@ -159,9 +152,11 @@
 
     {#    </form>#}
     <script>function total_wise() {
+        selected = 'only_kg';
+        console.log(selected);
         {#document.getElementById("total_wise_button").style.display = 'none';#}
         {#document.getElementById("ind_div").innerText = '';#}
-        cloth_wise_button = document.getElementsByName("cloth_wise_button")[0];
+        cloth_wise_button = document.getElementsByName("clothwise_button")[0];
         cloth_wise_button.style.display = 'block';
         {#document.getElementById("ind_div").style.visibility = 'hidden';#}
 
@@ -172,9 +167,10 @@
     }
 
     function cloth_wise() {
-
+        selected = 'ind_kg';
+        console.log(selected);
         document.getElementById("or_div").style.display = "block";
-        cloth_wise_button = document.getElementsByName("cloth_wise_button")[0];
+        cloth_wise_button = document.getElementsByName("clothwise_button")[0];
         cloth_wise_button.style.display = 'none';
         cloth_wise_button = document.getElementsByName("only_kg")[0];
         cloth_wise_button.style.display = 'none';
@@ -200,8 +196,8 @@
                     cur_key = kg_key;
                 }
             }
-            console.log(parseFloat(price_json[cur_key]));
-            console.log(parseFloat(entered_kg));
+            {#console.log(parseFloat(price_json[cur_key]));#}
+            {#console.log(parseFloat(entered_kg));#}
             price_span.value = (parseFloat(price_json[cur_key]) * parseFloat(entered_kg)).toFixed(2);
 
         } else if (entered_kg.toString() == "NaN") {
@@ -311,10 +307,10 @@
     <script>
         $(document).on('input', '.search-menu', function () {
 
-            console.log('Function called');
+            {#console.log('Function called');#}
             $("#live-search-result").css('visibility', 'visible');
             let value = this.value;
-            console.log(value);
+            {#console.log(value);#}
             if (value.length > 0) {
                 let obj = document.getElementById('search_query');
                 $.ajax({
@@ -330,13 +326,13 @@
                         var live_obj = $('.suggestion-wrap ul');
                         {#var div_obj = $('#live-search-result');#}
                         {#div_obj.empty();#}
-                        console.log(live_obj);
+                        {#console.log(live_obj);#}
                         live_obj.empty();
-                        console.log(data);
+                        {#console.log(data);#}
                         live_obj.innerText = '';
                         let customers = JSON.parse(data);
                         for (var key in customers) {
-                            console.log(customers[key]['name']);
+                            {#console.log(customers[key]['name']);#}
                             live_obj.append('<li id=' + key + '>' + customers[key]['name'] + ' ' + customers[key]['mobile'] + '</li>');
 
                         }
@@ -347,16 +343,17 @@
 
         });
 
-        document.querySelector('#order_form').addEventListener('submit', function (e) {
-            var form = this;
-
-            e.preventDefault(); // <--- prevent form from submitting
+        function confirm_form(e) {
+            e.preventDefault();
+            let form = document.getElementById('order_form');
+            console.log(selected);
+            {#form.preventDefault(); // <--- prevent form from submitting#}
             let name = document.getElementById('customer_name').innerText;
-            console.log(name);
+            {#console.log(name);#}
             let price = document.getElementById('price_span').value;
-            console.log(price);
+            {#console.log(price);#}
             let kg = document.getElementById('kg').value;
-            console.log(kg);
+            {#console.log(kg);#}
             let text = "Please confirm the order details before submitting:\n";
             text += '\n' + name;
             text += '\nKg: ' + kg;
@@ -376,20 +373,25 @@
                     {#    title: 'Shortlisted!',#}
                     {#    text: 'Candidates are successfully shortlisted!',#}
                     {#    icon: 'success'#}
-
+                    let obj = document.getElementById('selected');
+                    obj.value = selected;
+                    console.log(selected);
+                    console.log(obj);
                     form.submit(); // <--- submit form programmatically
-
+                    return true;
                 } else {
                     {#swal("Cancelled", "Your imaginary file is safe :)", "error");#}
+                    return false;
                 }
             })
-        });
+        }
 
     </script>
 
     <script>
+        var selected = 'only_kg';
+        {#console.log('{{ category_json|safe }}')#}
 
-        console.log('{{ category.items }}')
     </script>
 
 {% endblock scripts %}

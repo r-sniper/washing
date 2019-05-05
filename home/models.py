@@ -37,7 +37,7 @@ class Category(models.Model):
     is_active = models.BooleanField(default=True)
 
 
-class OrderDetails(models.Model):
+class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     count = models.IntegerField(default=0)
