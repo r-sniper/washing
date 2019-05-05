@@ -71,7 +71,7 @@ def new_order(request, customer_id):
             # current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
             current_price = float(request.POST.get('price'))
             print(current_price)
-            order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today())
+            order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today(),price=current_price)
             return HttpResponse('Order saved with id' + str(order_obj.pk))
         else:
             all_price = Price.objects.all().order_by('kg')
