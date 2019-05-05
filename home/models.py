@@ -23,9 +23,17 @@ class Order(models.Model):
     received_date = models.DateField()
     delivery_date = models.DateField(null=True, blank=True)
     price = models.FloatField()
+    status = models.CharField(default=1,max_length=1)
+
+
+# 1: only kg
+# 2: clothwise
+# 3: completed washing
+# 4: delivered
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    to_show = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
 
 

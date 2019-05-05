@@ -72,14 +72,18 @@ def new_order(request, customer_id):
             # current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
             current_price = float(request.POST.get('price'))
             print(current_price)
-            order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today(),
-                                             price=current_price)
+            order_obj = Order(customer=customer_obj, kg=kg, received_date=datetime.date.today(),
+                              price=current_price)
+            if request.POST.get('only_kg'):
+                order_obj.save()
+            else:
+                print('yet to write')
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
                 'price_json': json.dumps(price_json),
                 'message_type': 'success',
                 'message_title': 'Success',
-                'message': 'Order registered for customer' + customer_obj.name
+                'message': 'Order registered for customer ' + customer_obj.name
             })
         else:
             all_price = Price.objects.all().order_by('kg')
