@@ -73,16 +73,16 @@
                         <label for="kg"><b>Total Kgs: </b></label>
 
                         <div class="form-control">
-                            <input id="kg" name="kg" min="0" step="any" required onkeyup="calc_price(this.value);" type="number">
+                            <input id="kg" name="kg" min="0" step="any" pattern="^\d*(\.\d{0,2})?$" required onkeyup="calc_price(this.value);" type="number">
                         </div>
                         <br>
-                        <input type="submit" class="btn btn-dark" name="total_kg_button" value="Submit">
+                        <input type="submit" class="btn btn-dark" name="only_kg" value="Submit">
                         <input name="customer_id" value="{{ customer_obj.id }}" hidden>
                     </div>
 
 
                 </div>
-                <div class="row">
+                <div class="row" id="or_div">
                     <div class="col-md-9"></div>
                     <b>OR</b>
                 </div>
@@ -91,7 +91,9 @@
 
                     <div class="form-group">
                         <br>
-                        <input type="submit" class="btn btn-dark" name="cloth_wise_button" value="Enter Cloth wise">
+
+                        <input onclick="cloth_wise();" class="btn btn-dark" name="cloth_wise_button" value="Enter Cloth wise">
+
                     </div>
                 </div>
             </form>
@@ -100,7 +102,14 @@
         </div>
     </main>
     {#    </form>#}
-    <script>function calc_price(kgs) {
+    <script>function cloth_wise() {
+        cloth_wise_button = document.getElementById("cloth_wise_button");
+        cloth_wise_button.style.display = 'none';
+        document.getElementById("or_div").innerText = "";
+        document.getElementsByName("only_kg")[0].style.display = 'none';
+    }
+
+    function calc_price(kgs) {
         price_span = document.getElementById('price_span');
         entered_kg = parseFloat(kgs);
         price_json = '{{ price_json | safe }}';
@@ -118,7 +127,7 @@
             }
             console.log(parseFloat(price_json[cur_key]));
             console.log(parseFloat(entered_kg));
-            price_span.innerText = (parseFloat(price_json[cur_key])*parseFloat(entered_kg)).toFixed(2);
+            price_span.value = (parseFloat(price_json[cur_key])*parseFloat(entered_kg)).toFixed(2);
 
         }else if(entered_kg.toString() == "NaN"){
              price_span.value = 0;
