@@ -40,7 +40,7 @@
                 <div class="col-md-1"></div>
                 <div class="form-group col-md-5">
                     <div class="row">
-                        <label>Name: {{ customer_obj.name }}</label>
+                        <label id="customer_name">Name: {{ customer_obj.name }}</label>
                     </div>
                     <div class="row">
                         <label>Mobile: {{ customer_obj.mobile }}</label>
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <form action="{% url 'home:new_order' customer_id=customer_obj.id %}" method="POST">
+            <form action="{% url 'home:new_order' customer_id=customer_obj.id %}" method="POST" id="order_form">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-md-7"></div>
@@ -326,6 +326,45 @@
             }
 
         });
+
+        document.querySelector('#order_form').addEventListener('submit', function (e) {
+            var form = this;
+
+            e.preventDefault(); // <--- prevent form from submitting
+            let name = document.getElementById('customer_name').innerText;
+            console.log(name);
+            let price = document.getElementById('price_span').value;
+            console.log(price);
+            let kg = document.getElementById('kg').value;
+            console.log(kg);
+            let text = "Please confirm the order details before submitting:\n";
+            text += '\n' + name;
+            text += '\nKg: ' + kg;
+            text += '\nPrice: ' + price;
+            swal({
+                title: "Are you sure",
+                text: text,
+                icon: "warning",
+                buttons: [
+                    'No, cancel it!',
+                    'Yes, I am sure!'
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    {#swal({#}
+                    {#    title: 'Shortlisted!',#}
+                    {#    text: 'Candidates are successfully shortlisted!',#}
+                    {#    icon: 'success'#}
+
+                    form.submit(); // <--- submit form programmatically
+
+                } else {
+                    {#swal("Cancelled", "Your imaginary file is safe :)", "error");#}
+                }
+            })
+        });
+
     </script>
 
     <script>
