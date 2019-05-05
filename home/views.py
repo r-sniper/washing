@@ -90,10 +90,11 @@ def new_order(request, customer_id):
             price_json = {}
             for each_price in all_price:
                 price_json[str(each_price.kg)] = each_price.cost
+
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
                 'price_json': json.dumps(price_json),
-                'category': json.dumps({i.name: i.to_show for i in Category.objects.filter(is_active=True)})
+                'category': {i.name: i.to_show for i in Category.objects.filter(is_active=True)}
             })
     else:
         return HttpResponse('No objects found with that id')
