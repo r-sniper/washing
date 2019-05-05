@@ -58,58 +58,131 @@
             <form action="{% url 'home:new_order' customer_id=customer_obj.id %}" method="POST" id="order_form">
                 {% csrf_token %}
                 <div class="row">
-                    <div class="col-md-7"></div>
-                    <div class="form-group">
-                        <label for="price_span">Total Price: </label>
-                        ₹ <input readonly id="price_span" name="price" value="0">
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+
+                            <input name="customer_id" value="{{ customer_obj.id }}" hidden>
+                        </div>
+
+                        <div class="form-group" id="or_div" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-9 form-group">
+                                    <label for="qty">Cloth Type</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="qty">Quantity</label>
+                                </div>
+                            </div>
+                            {% for key, value in category.items %}
+                                {% if value %}
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                             <input readonly class="form-control" value="{{ key }}" name="cloth_{{ key }}">
+                                            {#                                            <select class="form-control" id="exampleFormControlSelect1">#}
+                                            {#                                                <option>1</option>#}
+                                            {#                                                <option>2</option>#}
+                                            {#                                                <option>3</option>#}
+                                            {#                                                <option>4</option>#}
+                                            {#                                                <option>5</option>#}
+                                            {#                                            </select>#}
+                                            {#                                            <input type="text" readonly class="form-control">#}
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            {#                                        <div class="">#}
+                                            <input name="qty_{{ key }}" min="0" pattern="^\d*(\.\d{0,2})?$"
+                                                   onkeyup="individual_kg();" type="number" class="form-control">
+                                            {#                                        </div>#}
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                {#                                <div class="col-md-1">#}
+                                {% endif %}
+                            {% endfor %}
+                            <button class="btn btn-success">+</button>
+                            {#                                </div>#}
+                            <br>
+                            <hr>
+                            {#                            <br> <br>#}
+                            <br>
+                            <input type="submit" onclick="calc_ind();" class="btn btn-dark" name="ind_kg"
+                                   value="Submit">
+                            <input onclick="total_wise();" class="btn btn-dark" name="total_wise_button"
+                                   id="total_wise_button"
+                                   value="Enter Total KG Only">
+                            {#                            </div>#}
+                            {#                        </div>#}
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-
-                    <div class="col-md-7"></div>
-
-                    <div class="form-group">
-
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="price_span">Total Price: </label>
+                            ₹ <input readonly id="price_span" name="price" value="0">
+                        </div>
                         <label for="kg"><b>Total Kgs: </b></label>
 
                         <div class="form-control">
-                            <input id="kg" name="kg" min="0" step="any" pattern="^\d*(\.\d{0,2})?$" required
+                            <input id="kg" name="kg" min="0" pattern="^\d*(\.\d{0,2})?$" required
                                    onkeyup="calc_price(this.value);" type="number">
                         </div>
                         <br>
                         <input type="submit" class="btn btn-dark" name="only_kg" value="Submit">
-                        <input name="customer_id" value="{{ customer_obj.id }}" hidden>
-                    </div>
-
-
-                </div>
-                <div class="row" id="or_div">
-                    <div class="col-md-9"></div>
-                    <b>OR</b>
-                </div>
-                <div class="row">
-                    <div class="col-md-7"></div>
-
-                    <div class="form-group">
                         <br>
+                        OR
 
+                        <br>
                         <input onclick="cloth_wise();" class="btn btn-dark" name="cloth_wise_button"
                                value="Enter Cloth wise">
-
                     </div>
                 </div>
+
+                <div class="row">
+
+
+                </div>
+
+                {#                </div>#}
             </form>
 
 
         </div>
     </main>
+
     {#    </form>#}
-    <script>function cloth_wise() {
-        cloth_wise_button = document.getElementById("cloth_wise_button");
-        cloth_wise_button.style.display = 'none';
-        document.getElementById("or_div").innerText = "";
-        document.getElementsByName("only_kg")[0].style.display = 'none';
+    <script>function total_wise() {
+        {#document.getElementById("total_wise_button").style.display = 'none';#}
+        {#document.getElementById("ind_div").innerText = '';#}
+        cloth_wise_button = document.getElementsByName("cloth_wise_button")[0];
+        cloth_wise_button.style.display = 'block';
+        {#document.getElementById("ind_div").style.visibility = 'hidden';#}
+
+        cloth_wise_button = document.getElementsByName("only_kg")[0];
+        cloth_wise_button.style.display = 'block';
+        document.getElementById("or_div").style.display = "none";
+
     }
+
+    function cloth_wise() {
+
+        document.getElementById("or_div").style.display = "block";
+        cloth_wise_button = document.getElementsByName("cloth_wise_button")[0];
+        cloth_wise_button.style.display = 'none';
+        cloth_wise_button = document.getElementsByName("only_kg")[0];
+        cloth_wise_button.style.display = 'none';
+        {#document.getElementById("ind_div").style.visibility = 'visible';#}
+        {#document.getElementById("total_wise_button").style.display = 'block';#}
+        {#document.getElementsByName("only_kg")[0].style.visibility = 'hidden';#}
+    }
+
 
     function calc_price(kgs) {
         price_span = document.getElementById('price_span');
@@ -133,7 +206,8 @@
 
         } else if (entered_kg.toString() == "NaN") {
             price_span.value = 0;
-        } else {
+        }
+        else {
             price_span.value = 'Invalid';
         }
 
@@ -315,7 +389,7 @@
 
     <script>
 
-
+        console.log('{{ category.items }}')
     </script>
 
 {% endblock scripts %}
