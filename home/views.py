@@ -57,22 +57,30 @@ def new_order(request, customer_id):
 
         if request.method == 'POST':
             kg = float(request.POST.get('kg'))
+            price_json = {}
+            all_price = Price.objects.all().order_by('kg')
+            for each_price in all_price:
+                price_json[str(each_price.kg)] = each_price.cost
             if kg < 0:
-                price_json = {}
-                all_price = Price.objects.all().order_by('kg')
-                for each_price in all_price:
-                    price_json[str(each_price.kg)] = each_price.cost
                 return render(request, 'new_order.html', {
                     'customer_obj': customer_obj,
                     'price_json': json.dumps(price_json),
+                    'message_title': 'Error',
                     'message_type': 'error',
                     'message': 'Kg should be greater than 0'
                 })
             # current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
             current_price = float(request.POST.get('price'))
             print(current_price)
-            order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today(),price=current_price)
-            return HttpResponse('Order saved with id' + str(order_obj.pk))
+            order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today(),
+                                             price=current_price)
+            return render(request, 'new_order.html', {
+                'customer_obj': customer_obj,
+                'price_json': json.dumps(price_json),
+                'message_type': 'success',
+                'message_title': 'Success',
+                'message': 'Order registered for customer' + customer_obj.name
+            })
         else:
             all_price = Price.objects.all().order_by('kg')
             price_json = {}
