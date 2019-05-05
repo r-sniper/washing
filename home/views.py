@@ -93,7 +93,7 @@ def new_order(request, customer_id):
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
                 'price_json': json.dumps(price_json),
-                'category':  Category.objects.filter(is_active=True)
+                'category': json.dumps({i.name: i.to_show for i in Category.objects.filter(is_active=True)})
             })
     else:
         return HttpResponse('No objects found with that id')
