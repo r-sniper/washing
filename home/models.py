@@ -33,7 +33,7 @@ class Order(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    to_show = models.BooleanField(default=True)
+    # to_show = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
 
 

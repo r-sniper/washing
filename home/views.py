@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import json
 # Create your views here.
-from home.models import Customer, Price, Order, Category
+from home.models import Customer, Price, Order, Category, OrderDetails
 
 
 def home_page(request):
@@ -74,6 +74,15 @@ def new_order(request, customer_id):
             print(current_price)
             order_obj = Order(customer=customer_obj, kg=kg, received_date=datetime.date.today(),
                               price=current_price)
+            if request.POST.get('ind_kg'):
+                for each in request.POST:
+                    if each.__contains__('cloth_'):
+                        each_id = each.split('cloth_')[1]
+                        cat_obj = Category.objects.get_or_create(name=request.POST.get(each), is_active=True)
+                        order_details = OrderDetails(order=order_obj, category=cat_obj,
+                                                         count=int(request.POST.get('qty_'+each_id)))
+                        order_details.save()
+
             if request.POST.get('clothes'):
                 print('yet to write')
             else:
@@ -90,10 +99,11 @@ def new_order(request, customer_id):
             price_json = {}
             for each_price in all_price:
                 price_json[str(each_price.kg)] = each_price.cost
+            cats = Category.objects.filter(is_active=True)
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
                 'price_json': json.dumps(price_json),
-                'category': json.dumps({i.name: i.to_show for i in Category.objects.filter(is_active=True)})
+                'category': [(cats[i:i+2]) for i in range(0, len(cats), 2)]
             })
     else:
         return HttpResponse('No objects found with that id')
