@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import json
 # Create your views here.
-from home.models import Customer, Price, Order
+from home.models import Customer, Price, Order, Category
 
 
 def home_page(request):
@@ -93,6 +93,7 @@ def new_order(request, customer_id):
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
                 'price_json': json.dumps(price_json),
+                'category':  Category.objects.filter(is_active=True)
             })
     else:
         return HttpResponse('No objects found with that id')
