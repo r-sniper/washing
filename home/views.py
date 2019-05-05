@@ -9,7 +9,7 @@ from home.models import Customer, Price, Order
 
 
 def home_page(request):
-    return render(request, 'new_base.html')
+    return render(request, 'base.html')
 
 
 def get_customer(request):

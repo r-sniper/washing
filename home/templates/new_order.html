@@ -40,7 +40,7 @@
                 <div class="col-md-1"></div>
                 <div class="form-group col-md-5">
                     <div class="row">
-                        <label>Name: {{ customer_obj.name }}</label>
+                        <label id="customer_name">Name: {{ customer_obj.name }}</label>
                     </div>
                     <div class="row">
                         <label>Mobile: {{ customer_obj.mobile }}</label>
@@ -55,28 +55,35 @@
                 </div>
             </div>
 
-            <form action="{% url 'home:register_customer' %}" method="POST">
+            <form action="{% url 'home:new_order' customer_id=customer_obj.id %}" method="POST" id="order_form">
                 {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-7"></div>
+                    <div class="form-group">
+                        <label for="price_span">Total Price: </label>
+                        ₹ <input readonly id="price_span" name="price" value="0">
+                    </div>
+                </div>
                 <div class="row">
 
                     <div class="col-md-7"></div>
 
                     <div class="form-group">
 
-                        <label for="total_weight"><b>Total Kgs: </b></label>
+                        <label for="kg"><b>Total Kgs: </b></label>
 
                         <div class="form-control">
-
-                            <input id="total_weight" name="total_weight" type="number">
+                            <input id="kg" name="kg" min="0" step="any" pattern="^\d*(\.\d{0,2})?$" required
+                                   onkeyup="calc_price(this.value);" type="number">
                         </div>
                         <br>
-                        <input type="Submit" class="btn btn-dark" name="total_kg_button" value="Submit">
+                        <input type="submit" class="btn btn-dark" name="only_kg" value="Submit">
                         <input name="customer_id" value="{{ customer_obj.id }}" hidden>
                     </div>
 
 
                 </div>
-                <div class="row">
+                <div class="row" id="or_div">
                     <div class="col-md-9"></div>
                     <b>OR</b>
                 </div>
@@ -85,7 +92,10 @@
 
                     <div class="form-group">
                         <br>
-                        <input class="btn btn-dark" name="cloth_wise_button" value="Enter Cloth wise">
+
+                        <input onclick="cloth_wise();" class="btn btn-dark" name="cloth_wise_button"
+                               value="Enter Cloth wise">
+
                     </div>
                 </div>
             </form>
@@ -94,13 +104,48 @@
         </div>
     </main>
     {#    </form>#}
+    <script>function cloth_wise() {
+        cloth_wise_button = document.getElementById("cloth_wise_button");
+        cloth_wise_button.style.display = 'none';
+        document.getElementById("or_div").innerText = "";
+        document.getElementsByName("only_kg")[0].style.display = 'none';
+    }
+
+    function calc_price(kgs) {
+        price_span = document.getElementById('price_span');
+        entered_kg = parseFloat(kgs);
+        price_json = '{{ price_json | safe }}';
+        price_json = JSON.parse(price_json);
+        cur_key = 1;
+        {#console.log(price_json);#}
+        if (entered_kg >= 0) {
+            for (kg_key in price_json) {
+                if (kg_key >= entered_kg) {
+                    cur_key = kg_key;
+                    break;
+                } else {
+                    cur_key = kg_key;
+                }
+            }
+            console.log(parseFloat(price_json[cur_key]));
+            console.log(parseFloat(entered_kg));
+            price_span.value = (parseFloat(price_json[cur_key]) * parseFloat(entered_kg)).toFixed(2);
+
+        } else if (entered_kg.toString() == "NaN") {
+            price_span.value = 0;
+        } else {
+            price_span.value = 'Invalid';
+        }
+
+    }
+
+    </script>
 
     <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
 
             <!-- Modal content-->
-            <form action="{% url 'home:register_customer' %}" onsubmit="register_request(event);" method="POST"
-                  id="order_form">
+            <form action="{% url 'home:register_customer' %}" onsubmit="register_request(event);" method="POST">
                 {% csrf_token %}
                 <div class="modal-content">
                     <div class="modal-header">
@@ -232,13 +277,16 @@
             var form = this;
 
             e.preventDefault(); // <--- prevent form from submitting
-            let name = document.getElementById('name');
-            let price = document.getElementById('price');
-            let kg = document.getElementById('kg');
+            let name = document.getElementById('customer_name').innerText;
+            console.log(name);
+            let price = document.getElementById('price_span').value;
+            console.log(price);
+            let kg = document.getElementById('kg').value;
+            console.log(kg);
             let text = "Please confirm the order details before submitting:\n";
-            text += 'Name: ' + name;
-            text += 'Kg: ' + kg;
-            text += 'Price: ' + price;
+            text += '\n' + name;
+            text += '\nKg: ' + kg;
+            text += '\nPrice: ' + price;
             swal({
                 title: "Are you sure",
                 text: text,
