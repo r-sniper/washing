@@ -175,7 +175,14 @@
     </footer>
 </div>
 </body>
+<script>
+    $(document).ready(function () {
+        if ("{{ msg_type }}") {
+            swal("{{ msg_title }}", "{{ msg }}", '{{ msg_type }}');
+        }
+    });
 
+</script>
 <!-- jQuery -->
 <script src="{% static 'home/js/jquery.min.js' %}"></script>
 
