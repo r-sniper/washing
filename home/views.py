@@ -62,7 +62,7 @@ def new_order(request, customer_id):
             order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today())
             return HttpResponse('Order saved with id' + str(order_obj.pk))
         else:
-            all_price = Price.objects.all().order_by('-kg')
+            all_price = Price.objects.all().order_by('kg')
             price_json = {}
             for each_price in all_price:
                 price_json[str(each_price.kg)] = each_price.cost
