@@ -68,8 +68,9 @@ def new_order(request, customer_id):
                     'message_type': 'error',
                     'message': 'Kg should be greater than 0'
                 })
-            current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
-            print(current_price.cost)
+            # current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
+            current_price = float(request.POST.get('price'))
+            print(current_price)
             order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today())
             return HttpResponse('Order saved with id' + str(order_obj.pk))
         else:

@@ -22,7 +22,7 @@ class Order(models.Model):
     kg = models.DecimalField(max_digits=6, decimal_places=2)
     received_date = models.DateField()
     delivery_date = models.DateField(null=True, blank=True)
-
+    price = models.FloatField()
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
