@@ -56,7 +56,18 @@ def new_order(request, customer_id):
         customer_obj = customer_obj[0]
 
         if request.method == 'POST':
-            kg = int(request.POST.get('kg'))
+            kg = float(request.POST.get('kg'))
+            if kg < 0:
+                price_json = {}
+                all_price = Price.objects.all().order_by('kg')
+                for each_price in all_price:
+                    price_json[str(each_price.kg)] = each_price.cost
+                return render(request, 'new_order.html', {
+                    'customer_obj': customer_obj,
+                    'price_json': json.dumps(price_json),
+                    'message_type': 'error',
+                    'message': 'Kg should be greater than 0'
+                })
             current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
             print(current_price.cost)
             order_obj = Order.objects.create(customer=customer_obj, kg=kg, received_date=datetime.date.today())
