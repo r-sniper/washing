@@ -61,7 +61,7 @@
                     <div class="col-md-7"></div>
                     <div class="form-group">
                         <label for="price_span">Total Price: </label>
-                        ₹ <span id="price_span">0 </span>
+                        ₹ <input readonly id="price_span" name="price" value="0">
                     </div>
                 </div>
                 <div class="row">
@@ -121,10 +121,10 @@
             price_span.innerText = (parseFloat(price_json[cur_key])*parseFloat(entered_kg)).toFixed(2);
 
         }else if(entered_kg.toString() == "NaN"){
-             price_span.innerText = 0;
+             price_span.value = 0;
         }
         else {
-            price_span.innerText = 'Invalid';
+            price_span.value = 'Invalid';
         }
 
     }
