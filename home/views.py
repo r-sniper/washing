@@ -78,7 +78,7 @@ def new_order(request, customer_id):
                 for each in request.POST:
                     if each.__contains__('cloth_'):
                         each_id = each.split('cloth_')[1]
-                        cat_obj = Category.objects.get_or_create(name=request.POST.get(each), is_active=True)
+                        cat_obj = Category.objects.get_or_create(name=request.POST.get(each), is_active=True)[0]
                         order_details = OrderDetail(order=order_obj, category=cat_obj,
                                                          count=int(request.POST.get('qty_'+each_id)))
                         order_details.save()
