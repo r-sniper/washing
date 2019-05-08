@@ -7,11 +7,12 @@
                 <div class="card-header">
                     New Orders (Awaiting Evaluation)
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="received_order">
                     {% if received_orders %}
                         <ul class="list-group list-group-flush">
                             {% for order in received_orders %}
-                                <li class="list-group-item" data-toggle="modal" data-target="#order_detail_modal">
+                                <li class="list-group-item" data-toggle="modal" data-target="#order_detail_modal"
+                                    id="received_order_{{ order.pk }}">
                                     <h5 class="card-title">Receipt: {{ order.pk }}</h5>
                                     <p class="card-text">
                                         Name: {{ order.customer.name }}<br/>
@@ -32,11 +33,11 @@
                 <div class="card-header">
                     Orders awaiting washing
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="clothwise_order">
                     {% if clothwise_orders %}
                         <ul class="list-group list-group-flush">
                             {% for order in clothwise_orders %}
-                                <li class="list-group-item">
+                                <li class="list-group-item" id="clothwise_order_{{ order.pk }}">
                                     <h5 class="card-title">Receipt: {{ order.pk }}</h5>
                                     <p class="card-text">
                                         Name: {{ order.customer.name }}<br/>
@@ -57,11 +58,11 @@
                 <div class="card-header">
                     Orders awaiting delivery
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="washed_orders">
                     {% if washed_orders %}
                         <ul class="list-group list-group-flush">
                             {% for order in washed_orders %}
-                                <li class="list-group-item">
+                                <li class="list-group-item" id="washed_orders_{{ order.pk }}">
                                     <h5 class="card-title">Receipt: {{ order.pk }}</h5>
                                     <p class="card-text">
                                         Name: {{ order.customer.name }}<br/>
@@ -105,3 +106,72 @@
         </div>
     </div>
 {% endblock home_content %}
+
+{% block home_script %}
+    <script>
+
+        setInterval(send_ajax, 10000);
+
+        function send_ajax() {
+            $.ajax({
+                url: '{% url 'home:home_page' %}',
+                type: 'post',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    console.log(data);
+                    populate_orders(data);
+                }
+            });
+        }
+
+        function populate_orders(data) {
+            let json = JSON.parse(data);
+            console.log(json);
+            let received_card = document.getElementById('received_order');
+            if (json['received_order'].length > 0) {
+                for (let order in json['received_order']) {
+                    received_card.innerHTML = "";
+                    {#<ul class="list-group list-group-flush">#}
+                    {#        {% for order in received_orders %}#}
+                    {#            <li class="list-group-item" data-toggle="modal" data-target="#order_detail_modal"#}
+                    {#                id="received_order_{{ order.pk }}">#}
+                    {#                <h5 class="card-title">Receipt: {{ order.pk }}</h5>#}
+                    {#                <p class="card-text">#}
+                    {#                    Name: {{ order.customer.name }}<br/>#}
+                    {#                    Mobile: {{ order.customer.mobile }}<br>#}
+                    {#                    Order date: {{ order.received_date }}#}
+                    {#                </p>#}
+                    {#            </li>#}
+                    {#        {% endfor %}#}
+                    {#    </ul>#}
+
+                    let ul = document.createElement('ul');
+                    ul.setAttribute('class', 'list-group list-group-flush');
+
+                    let li = document.createElement('li');
+                    ul.setAttribute('class', 'list-group-item');
+                    ul.setAttribute('data-toggle', 'modal');
+                    ul.setAttribute('data-target', '#order_detail_modal');
+                    ul.setAttribute('id', 'received_order_' + order);
+
+                    let heading = document.createElement('h5');
+                    heading.setAttribute('class', 'card-title');
+                    heading.innerHTML = 'Receipt:' + order;
+
+
+                    let inner_json = JSON.parse(json['received_order'][order][0]);
+                    console.log(inner_json);
+
+                    let para = document.createElement('p');
+                    para.setAttribute('class', 'card-text');
+                    para.innerHTML = "Name: " + inner_json['fields'][]
+
+                }
+            } else {
+                received_card.innerHTML = '<h6 class="card-subtitle text-muted text-center">No Orders</h6>';
+            }
+        }
+    </script>
+{% endblock home_script %}

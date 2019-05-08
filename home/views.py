@@ -14,13 +14,17 @@ from home.models import Customer, Price, Order, Category, OrderDetail
 def home_page(request):
     if request.is_ajax():
         orders = Order.objects.filter(is_active=True).order_by('-received_date')
-        dict = {}
+        dict = {
+            'received_order': {},
+            'clothwise_order': {},
+            'washed_order': {}
+        }
         for each in orders.filter(status=1):
-            dict['received_order_'+str(each.pk)] = serializers.serialize('json',[each])
+            dict['received_order'][str(each.pk)] = serializers.serialize('json', [each])
         for each in orders.filter(status=2):
-            dict['clothwise_order_' + str(each.pk)] = serializers.serialize('json', [each])
+            dict['clothwise_order'][str(each.pk)] = serializers.serialize('json', [each])
         for each in orders.filter(status=3):
-            dict['washed_order_' + str(each.pk)] = serializers.serialize('json', [each])
+            dict['washed_order'][str(each.pk)] = serializers.serialize('json', [each])
             # for each in orders.filter(status=4):
             #     dict['delivered_order_' + each.pk] = serializers.serialize('json', each)
 
