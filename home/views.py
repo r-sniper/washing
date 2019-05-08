@@ -1,8 +1,10 @@
 import datetime
 import json
 
+from django.core import serializers
 from django.db.models import Q
-from django.http import HttpResponse
+from django.forms import model_to_dict
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -10,16 +12,31 @@ from home.models import Customer, Price, Order, Category, OrderDetail
 
 
 def home_page(request):
-    orders = Order.objects.filter(is_active=True).order_by('-received_date')
+    if request.is_ajax():
+        orders = Order.objects.filter(is_active=True).order_by('-received_date')
+        dict = {}
+        for each in orders.filter(status=1):
+            dict['received_order_'+str(each.pk)] = serializers.serialize('json',[each])
+        for each in orders.filter(status=2):
+            dict['clothwise_order_' + str(each.pk)] = serializers.serialize('json', [each])
+        for each in orders.filter(status=3):
+            dict['washed_order_' + str(each.pk)] = serializers.serialize('json', [each])
+            # for each in orders.filter(status=4):
+            #     dict['delivered_order_' + each.pk] = serializers.serialize('json', each)
 
-    return render(request, 'dashboard.html', {'received_orders': orders.filter(status=1),
-                                              'clothwise_orders': orders.filter(status=2),
-                                              'washed_orders': orders.filter(status=3),
-                                              'delivered_orders': orders.filter(status=4,
-                                                                                received_date__range=(
-                                                                                datetime.datetime.today() - datetime.timedelta(
-                                                                                    2),
-                                                                                datetime.datetime.today()))})
+        json_ = json.dumps(dict)
+        return HttpResponse(json_)
+    else:
+        orders = Order.objects.filter(is_active=True).order_by('-received_date')
+
+        return render(request, 'dashboard.html', {'received_orders': orders.filter(status=1),
+                                                  'clothwise_orders': orders.filter(status=2),
+                                                  'washed_orders': orders.filter(status=3),
+                                                  'delivered_orders': orders.filter(status=4,
+                                                                                    received_date__range=(
+                                                                                        datetime.datetime.today() - datetime.timedelta(
+                                                                                            2),
+                                                                                        datetime.datetime.today()))})
 
 
 def get_customer(request):
@@ -117,3 +134,8 @@ def new_order(request, customer_id):
             })
     else:
         return HttpResponse('No objects found with that id')
+
+
+def orders(request):
+    orders = Order.objects.filter(is_active=True).order_by('-received_date')
+    return render(request, 'orders.html', {'orders', orders})
