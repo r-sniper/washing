@@ -118,7 +118,7 @@
                 <!-- Modal body -->
                 <form action="{% url 'home:clothwise' %}" method="POST" id="order_form"
                       onsubmit="return confirm_form(event);">
-                {% csrf_token %}
+                    {% csrf_token %}
                     <div class="modal-body" id="modal_body">
                         <h5 class="lead" id="modal_subtitle"></h5>
 
@@ -149,7 +149,8 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <input readonly class="form-control" value="{{ i }}"
-                                                       name="cloth_{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                                       name="cloth_
+                                                               {{ forloop.parentloop.counter }}{{ forloop.counter }}">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -182,137 +183,137 @@
 {% block home_script %}
     <script>
 
-    setInterval(send_ajax, 5000);
+        setInterval(send_ajax, 5000);
 
-    function send_ajax() {
-        $.ajax({
-            url: '{% url 'home:home_page' %}',
-            type: 'post',
-            data: {
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            success: function (data) {
-                {#console.log(JSON.parse(data));#}
-                populate_orders(data);
-            }
-        });
-    }
-
-    var json;
-
-    function populate_orders(data) {
-        json = JSON.parse(data);
-        console.log(json);
-        let received_card = document.getElementById('received_order');
-
-        if (Object.keys(json['received_order']).length > 0) {
-            received_card.innerHTML = "";
-
-            let ul = document.createElement('ul');
-            ul.setAttribute('class', 'list-group list-group-flush');
-
-            for (let order in json['received_order']) {
-
-                let li = document.createElement('li');
-                li.setAttribute('class', 'list-group-item');
-                li.setAttribute('onclick', 'show_modal("received_order-' + order + '")');
-                {#li.setAttribute('data-toggle', 'modal');#}
-                {#li.setAttribute('data-target', '#order_detail_modal');#}
-                li.setAttribute('id', 'received_order_' + order);
-
-                let heading = document.createElement('h5');
-                heading.setAttribute('class', 'card-title');
-                heading.innerHTML = 'Receipt: ' + order;
-
-
-                let para = document.createElement('p');
-                para.setAttribute('class', 'card-text');
-                para.innerHTML = "Name: " + json['received_order'][order]['name'] + "<br/>Mobile: " + json['received_order'][order]['mobile'] + "<br/>Order Date: " + json['received_order'][order]['received_date'];
-
-                li.appendChild(heading);
-                li.appendChild(para);
-                ul.appendChild(li);
-
-            }
-            received_card.appendChild(ul);
-        } else {
-            received_card.innerHTML = '<h6 class="card-subtitle text-muted text-center">No Orders</h6>';
+        function send_ajax() {
+            $.ajax({
+                url: '{% url 'home:home_page' %}',
+                type: 'post',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    {#console.log(JSON.parse(data));#}
+                    populate_orders(data);
+                }
+            });
         }
 
-        let clothwise_card = document.getElementById('clothwise_order');
+        var json;
 
-        if (Object.keys(json['clothwise_order']).length > 0) {
-            clothwise_card.innerHTML = "";
+        function populate_orders(data) {
+            json = JSON.parse(data);
+            console.log(json);
+            let received_card = document.getElementById('received_order');
 
-            let ul = document.createElement('ul');
-            ul.setAttribute('class', 'list-group list-group-flush');
+            if (Object.keys(json['received_order']).length > 0) {
+                received_card.innerHTML = "";
 
-            for (let order in json['clothwise_order']) {
+                let ul = document.createElement('ul');
+                ul.setAttribute('class', 'list-group list-group-flush');
 
-                let li = document.createElement('li');
-                li.setAttribute('class', 'list-group-item');
-                li.setAttribute('onclick', 'show_modal("clothwise_order-' + order + '")');
+                for (let order in json['received_order']) {
 
-                {#li.setAttribute('data-toggle', 'modal');#}
-                {#li.setAttribute('data-target', '#order_detail_modal');#}
-                li.setAttribute('id', 'clothwise_order_' + order);
+                    let li = document.createElement('li');
+                    li.setAttribute('class', 'list-group-item');
+                    li.setAttribute('onclick', 'show_modal("received_order-' + order + '")');
+                    {#li.setAttribute('data-toggle', 'modal');#}
+                    {#li.setAttribute('data-target', '#order_detail_modal');#}
+                    li.setAttribute('id', 'received_order_' + order);
 
-                let heading = document.createElement('h5');
-                heading.setAttribute('class', 'card-title');
-                heading.innerHTML = 'Receipt:' + order;
+                    let heading = document.createElement('h5');
+                    heading.setAttribute('class', 'card-title');
+                    heading.innerHTML = 'Receipt: ' + order;
 
 
-                let para = document.createElement('p');
-                para.setAttribute('class', 'card-text');
-                para.innerHTML = "Name: " + json['clothwise_order'][order]['name'] + "<br/>Mobile: " + json['clothwise_order'][order]['mobile'] + "<br/>Order Date: " + json['clothwise_order'][order]['received_date'];
+                    let para = document.createElement('p');
+                    para.setAttribute('class', 'card-text');
+                    para.innerHTML = "Name: " + json['received_order'][order]['name'] + "<br/>Mobile: " + json['received_order'][order]['mobile'] + "<br/>Order Date: " + json['received_order'][order]['received_date'];
 
-                li.appendChild(heading);
-                li.appendChild(para);
-                ul.appendChild(li);
+                    li.appendChild(heading);
+                    li.appendChild(para);
+                    ul.appendChild(li);
 
+                }
+                received_card.appendChild(ul);
+            } else {
+                received_card.innerHTML = '<h6 class="card-subtitle text-muted text-center">No Orders</h6>';
             }
-            clothwise_card.appendChild(ul);
-        } else {
-            clothwise_card.innerHTML = '<h6 class="card-subtitle text-muted text-center">No Orders</h6>';
-        }
 
-        let washed_card = document.getElementById('washed_order');
+            let clothwise_card = document.getElementById('clothwise_order');
 
-        if (Object.keys(json['washed_order']).length > 0) {
-            washed_card.innerHTML = "";
+            if (Object.keys(json['clothwise_order']).length > 0) {
+                clothwise_card.innerHTML = "";
 
-            let ul = document.createElement('ul');
-            ul.setAttribute('class', 'list-group list-group-flush');
+                let ul = document.createElement('ul');
+                ul.setAttribute('class', 'list-group list-group-flush');
 
-            for (let order in json['washed_order']) {
+                for (let order in json['clothwise_order']) {
 
-                let li = document.createElement('li');
-                li.setAttribute('class', 'list-group-item');
-                li.setAttribute('onclick', 'show_modal("washed_order-' + order + '")');
+                    let li = document.createElement('li');
+                    li.setAttribute('class', 'list-group-item');
+                    li.setAttribute('onclick', 'show_modal("clothwise_order-' + order + '")');
 
-                {#li.setAttribute('data-toggle', 'modal');#}
-                {#li.setAttribute('data-target', '#order_detail_modal');#}
-                li.setAttribute('id', 'washed_order_' + order);
+                    {#li.setAttribute('data-toggle', 'modal');#}
+                    {#li.setAttribute('data-target', '#order_detail_modal');#}
+                    li.setAttribute('id', 'clothwise_order_' + order);
 
-                let heading = document.createElement('h5');
-                heading.setAttribute('class', 'card-title');
-                heading.innerHTML = 'Receipt:' + order;
+                    let heading = document.createElement('h5');
+                    heading.setAttribute('class', 'card-title');
+                    heading.innerHTML = 'Receipt:' + order;
 
 
-                let para = document.createElement('p');
-                para.setAttribute('class', 'card-text');
-                para.innerHTML = "Name: " + json['washed_order'][order]['name'] + "<br/>Mobile: " + json['washed_order'][order]['mobile'] + "<br/>Delivery Date: " + json['washed_order'][order]['delivery_date'];
+                    let para = document.createElement('p');
+                    para.setAttribute('class', 'card-text');
+                    para.innerHTML = "Name: " + json['clothwise_order'][order]['name'] + "<br/>Mobile: " + json['clothwise_order'][order]['mobile'] + "<br/>Order Date: " + json['clothwise_order'][order]['received_date'];
 
-                li.appendChild(heading);
-                li.appendChild(para);
-                ul.appendChild(li);
+                    li.appendChild(heading);
+                    li.appendChild(para);
+                    ul.appendChild(li);
 
+                }
+                clothwise_card.appendChild(ul);
+            } else {
+                clothwise_card.innerHTML = '<h6 class="card-subtitle text-muted text-center">No Orders</h6>';
             }
-            washed_card.appendChild(ul);
-        } else {
-            washed_card.innerHTML = '<h6 class="card-subtitle text-muted text-center">No Orders</h6>';
+
+            let washed_card = document.getElementById('washed_order');
+
+            if (Object.keys(json['washed_order']).length > 0) {
+                washed_card.innerHTML = "";
+
+                let ul = document.createElement('ul');
+                ul.setAttribute('class', 'list-group list-group-flush');
+
+                for (let order in json['washed_order']) {
+
+                    let li = document.createElement('li');
+                    li.setAttribute('class', 'list-group-item');
+                    li.setAttribute('onclick', 'show_modal("washed_order-' + order + '")');
+
+                    {#li.setAttribute('data-toggle', 'modal');#}
+                    {#li.setAttribute('data-target', '#order_detail_modal');#}
+                    li.setAttribute('id', 'washed_order_' + order);
+
+                    let heading = document.createElement('h5');
+                    heading.setAttribute('class', 'card-title');
+                    heading.innerHTML = 'Receipt:' + order;
+
+
+                    let para = document.createElement('p');
+                    para.setAttribute('class', 'card-text');
+                    para.innerHTML = "Name: " + json['washed_order'][order]['name'] + "<br/>Mobile: " + json['washed_order'][order]['mobile'] + "<br/>Delivery Date: " + json['washed_order'][order]['delivery_date'];
+
+                    li.appendChild(heading);
+                    li.appendChild(para);
+                    ul.appendChild(li);
+
+                }
+                washed_card.appendChild(ul);
+            } else {
+                washed_card.innerHTML = '<h6 class="card-subtitle text-muted text-center">No Orders</h6>';
+            }
         }
-    }
 
         function open_cloth_detail_modal(order_pk, cust_pk, cust_name) {
             document.getElementById('modal_subtitle').innerHTML = 'Customer: ' + cust_name;
@@ -321,54 +322,54 @@
             $('#cloth_detail_modal').modal('show');
         }
 
-    function change_status(pk, new_status) {
-        $.ajax({
-            url: '{% url 'home:change_status' %}',
-            type: 'post',
-            data: {
-                'pk': pk,
-                'new_status': new_status,
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            success: function (data) {
-                swal('Success', 'Status changed', 'success');
-                send_ajax();
+        function change_status(pk, new_status) {
+            $.ajax({
+                url: '{% url 'home:change_status' %}',
+                type: 'post',
+                data: {
+                    'pk': pk,
+                    'new_status': new_status,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    swal('Success', 'Status changed', 'success');
+                    $('#order_detail_modal').modal('hide');
+                    send_ajax();
+                }
+            });
+        }
+
+        function show_modal(id) {
+            let type = id.split('-')[0];
+            let pk = id.split('-')[1];
+            let status = json[type][pk]['status'];
+
+            if (status == "1") {
+                status = "Order received. Evaluation Pending.";
+            } else if (status == "2") {
+                status = "Evaluation Done. Waiting to be washed";
+            } else if (status == "3") {
+                status = "Washing Done. Awaiting Delivery.";
+            } else {
+                status = "Delivered";
             }
-        });
-    }
 
-    function show_modal(id) {
-        let type = id.split('-')[0];
-        let pk = id.split('-')[1];
-        console.log(json[type]);
-        let status = json[type][pk]['status'];
 
-        if (status == "1") {
-            status = "Order received. Evaluation Pending.";
-        } else if (status == "2") {
-            status = "Evaluation Done. Waiting to be washed";
-        } else if (status == "3") {
-            status = "Washing Done. Awaiting Delivery.";
-        } else {
-            status = "Delivered";
+            let modal_body = document.getElementById('modal_body');
+            modal_body.innerHTML = "<p>Receipt No: " + pk + "<br>Name: " + json[type][pk]['name'] + "<br>Mobile: " + json[type][pk]['mobile'] + "<br>Address: " + json[type][pk]['address'] + "<br>Status: " + status + "<br>Quantity: " + json[type][pk]['kg'];
+
+            let modal_footer = document.getElementById('modal_footer');
+            if (type == 'received_order') {
+                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="open_cloth_detail_modal(' + pk + ',' + json[type][pk]['customer_pk'] + ',\'' + json[type][pk]['name'] + '\')">Add Clothwise Details</button>';
+            } else if (type == 'clothwise_order') {
+                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',3)">Change status to Washing</button>';
+            } else if (type == 'washed_order') {
+                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',4)">Change status to Delivered</button>';
+            }
+
+
+            $('#order_detail_modal').modal('show');
         }
-
-
-        let modal_body = document.getElementById('modal_body');
-        modal_body.innerHTML = "<p>Receipt No: " + pk + "<br>Name: " + json[type][pk]['name'] + "<br>Mobile: " + json[type][pk]['mobile'] + "<br>Status" + status;
-
-        let modal_footer = document.getElementById('modal_footer');
-        if (type == 'received_order') {
-            modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="open_cloth_detail_modal(' + pk + ',' + json[type][pk]['customer_pk'] + ',\'' + json[type][pk]['name'] + '\')">Add Clothwise Details</button>';
-        } else if (type == 'clothwise_order') {
-            modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',3)">Change status to Washing</button>';
-        } else {
-            modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',4)>Change status to Delivered</button>';
-        }
-
-
-        $('#order_detail_modal').modal('show');
-    }
 
 
     </script>
