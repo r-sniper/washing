@@ -22,6 +22,7 @@ from washing.settings import MEDIA_ROOT
 
 def order_to_dict(order):
     return {'name': order.customer.name, 'mobile': order.customer.mobile,
+            'customer_pk': order.customer.pk,
             'received_date': str(order.received_date), 'delivery_date': str(order.delivery_date),
             'order_pk': order.pk, 'price': str(order.price), 'kg': str(order.kg), 'status': order.status}
 
@@ -237,9 +238,9 @@ def day_excel(request):
         return render(request, 'reports.html')
 
 
-def general_excel(request, type):
-    if request.method == 'POST':
-        if type == 'all_expenses':
+def general_excel(request, type=''):
+    print(type)
+    if type == 'all':
             all_expense_obj = Expense.objects.all()
             wb = Workbook()
 
@@ -258,21 +259,22 @@ def general_excel(request, type):
                 temp = [each.date, each.name, each.description, each.cost]
                 work_sheet.append(temp)
             file_path = os.path.join(MEDIA_ROOT, file_name)
+            wb.save(file_path)
             with open(file_path, "rb") as excel:
                 data = excel.read()
             response = excel_download_response(file_path, file_name, data)
             return response
-    else:
-        return render(request, 'general_excel.html')
+    return render(request, 'general_excel.html')
 
 
 def expenses(request):
     if request.method == 'POST':
         name = request.POST.get('name')
+        cost = request.POST.get('cost')
         description = request.POST.get('description')
         date = request.POST.get('date')
 
-        Expense.objects.create(name=name, description=description, date=date)
+        Expense.objects.create(name=name, description=description, date=date, cost=cost)
 
         return render(request, 'expenses.html', {'message_type': 'success',
                                                  'message_title': 'Success',
