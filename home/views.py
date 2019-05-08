@@ -5,7 +5,7 @@ import os
 
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.encoding import smart_str
 from openpyxl import Workbook
 
@@ -24,7 +24,8 @@ def order_to_dict(order):
     return {'name': order.customer.name, 'mobile': order.customer.mobile,
             'customer_pk': order.customer.pk,
             'received_date': str(order.received_date), 'delivery_date': str(order.delivery_date),
-            'order_pk': order.pk, 'price': str(order.price), 'kg': str(order.kg), 'status': order.status}
+            'order_pk': order.pk, 'price': str(order.price), 'kg': str(order.kg), 'status': order.status,
+            'address': order.customer.address}
 
 
 def home_page(request):
@@ -338,9 +339,7 @@ def clothwise(request):
                 order_details.save()
         order_obj.status = 2
         order_obj.save()
-        return render(request, 'dashboard.html', {'message_type': 'success',
-                                                 'message_title': 'Success',
-                                                 'message': 'Clothwise details updated successfully'})
+        return redirect('/')
     return HttpResponse('failure')
 
 
