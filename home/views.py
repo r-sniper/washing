@@ -265,10 +265,11 @@ def general_excel(request, type):
 def expenses(request):
     if request.method == 'POST':
         name = request.POST.get('name')
+        cost = request.POST.get('cost')
         description = request.POST.get('description')
         date = request.POST.get('date')
 
-        Expense.objects.create(name=name, description=description, date=date)
+        Expense.objects.create(name=name, description=description, date=date, cost=cost)
 
         return render(request, 'expenses.html', {'message_type': 'success',
                                                  'message_title': 'Success',
