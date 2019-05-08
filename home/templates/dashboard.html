@@ -116,7 +116,7 @@
                 </div>
 
                 <!-- Modal body -->
-                <form action="#" method="POST" id="order_form"
+                <form action="{% url 'home:clothwise' %}" method="POST" id="order_form"
                       onsubmit="return confirm_form(event);">
                     <div class="modal-body" id="modal_body">
                         <h5 class="lead" id="modal_subtitle"></h5>
