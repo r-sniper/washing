@@ -57,5 +57,6 @@ class Price(models.Model):
 
 class Expense(models.Model):
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=60, null=True, blank=True)
+    description = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateField()
+    cost = models.IntegerField()
