@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^new_order/(?P<customer_id>[0-9]+)/$', views.new_order, name='new_order'),
     # / register customer
     url(r'^register_customer/$', views.customer_registration, name='register_customer'),
+    # /change_status
+    url(r'^change_status/$', views.change_status, name='change_status'),
     # / register customer
     url(r'^daywise_excel/$', views.day_excel, name='daywise_excel'),
     # / General Excel

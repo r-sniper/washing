@@ -303,3 +303,9 @@ def clothwise(request):
                                                  'message_title': 'Success',
                                                  'message': 'Clothwise details updated successfully'})
     return HttpResponse('failure')
+
+
+def change_status(request):
+    order = Order.objects.get(pk=int(request.POST.get('pk')))
+    order.status = int(request.POST.get('new_status'))
+    return HttpResponse('success')
