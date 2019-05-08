@@ -3,24 +3,30 @@ import json
 
 from django.core import serializers
 from django.db.models import Q
-from django.forms import model_to_dict
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 from home.models import Customer, Price, Order, Category, OrderDetail
 
 
+def order_to_dict(order):
+    return {'name': order.customer.name, 'mobile': order.customer.mobile,
+            'received_date': str(order.received_date), 'delivery_date': str(order.delivery_date),
+            'order_pk': order.pk, 'price': str(order.price), 'kg': str(order.kg), 'status': order.status}
+
+
 def home_page(request):
-    if request.is_ajax():
+    if request.is_ajax:
         orders = Order.objects.filter(is_active=True).order_by('-received_date')
         dict = {}
+
         for each in orders.filter(status=1):
-            dict['received_order_'+str(each.pk)] = serializers.serialize('json',[each])
+            dict['received_order_' + str(each.pk)] = order_to_dict(each)
         for each in orders.filter(status=2):
-            dict['clothwise_order_' + str(each.pk)] = serializers.serialize('json', [each])
+            dict['clothwise_order_' + str(each.pk)] = order_to_dict(each)
         for each in orders.filter(status=3):
-            dict['washed_order_' + str(each.pk)] = serializers.serialize('json', [each])
+            dict['washed_order_' + str(each.pk)] = order_to_dict(each)
             # for each in orders.filter(status=4):
             #     dict['delivered_order_' + each.pk] = serializers.serialize('json', each)
 
@@ -138,4 +144,4 @@ def new_order(request, customer_id):
 
 def orders(request):
     orders = Order.objects.filter(is_active=True).order_by('-received_date')
-    return render(request, 'orders.html', {'orders', orders})
+    return render(request, 'orders.html', {'orders': orders})
