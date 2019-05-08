@@ -8,9 +8,16 @@
                     New Orders (Awaiting Evaluation)
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <ul class="list-group list-group-flush">
+                        {% for order in received_orders %}
+                            <li class="list-group-item">
+                                <h5 class="card-title">Receipt: {{ order.order_no }}</h5>
+                                <p class="card-text">Name: {{ order.customer.name }}</p>
+                                <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
+                                <p class="card-text">Address: {{ order.customer.address }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
@@ -20,9 +27,16 @@
                     Orders awaiting washing
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <ul class="list-group list-group-flush">
+                        {% for order in clothwise_orders %}
+                            <li class="list-group-item">
+                                <h5 class="card-title">Receipt: {{ order.order_no }}</h5>
+                                <p class="card-text">Name: {{ order.customer.name }}</p>
+                                <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
+                                <p class="card-text">Address: {{ order.customer.address }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
@@ -31,11 +45,16 @@
                 <div class="card-header">
                     Orders awaiting delivery
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+                <ul class="list-group list-group-flush">
+                    {% for order in washed_orders %}
+                        <li class="list-group-item">
+                            <h5 class="card-title">Receipt: {{ order.order_no }}</h5>
+                            <p class="card-text">Name: {{ order.customer.name }}</p>
+                            <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
+                            <p class="card-text">Address: {{ order.customer.address }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
