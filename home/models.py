@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
 # Create your models here.
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
+
+
 class UserDetails(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -25,6 +28,19 @@ class Order(models.Model):
     price = models.FloatField()
     status = models.CharField(default=1, max_length=1)
     is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        super(Order, self).save(*args, **kwargs)
+
+        price = self.price
+        date = self.delivery_date
+        if date:
+            money_obj = Money.objects.filter(date=date)
+            if len(money_obj) > 0:
+                money_obj = money_obj[0]
+                money_obj.total_income += price
+            else:
+                Money.objects.create(date=date, total_income=price)
 
 
 # 1: only kg
@@ -52,11 +68,29 @@ class OrderDetail(models.Model):
 
 class Price(models.Model):
     kg = models.DecimalField(max_digits=6, decimal_places=2)
-    cost = models.PositiveIntegerField()
+    cost = models.FloatField()
 
 
 class Expense(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateField()
-    cost = models.IntegerField()
+    cost = models.FloatField()
+
+    def save(self, *args, **kwargs):
+        super(Expense, self).save(*args, **kwargs)
+        # print('called')
+        cost = self.cost
+        date = self.date
+        money_obj = Money.objects.filter(date=date)
+        if len(money_obj) > 0:
+            money_obj = money_obj[0]
+            money_obj.total_expenditure += cost
+        else:
+            Money.objects.create(date=date, total_expenditure=cost)
+
+
+class Money(models.Model):
+    date = models.DateField(unique=True)
+    total_income = models.FloatField(default=0)
+    total_expenditure = models.FloatField(default=0)

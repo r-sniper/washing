@@ -9,6 +9,10 @@ from django.shortcuts import render
 from django.utils.encoding import smart_str
 from openpyxl import Workbook
 
+from home.models import Customer, Price, Order, Category, OrderDetail, Expense, Money
+# Create your views here.
+from openpyxl.compat import file
+
 from home.models import Customer, Price, Order, Category, OrderDetail, Expense
 from washing.settings import MEDIA_ROOT
 
@@ -231,7 +235,7 @@ def day_excel(request):
 
         with open(file_path, "rb") as excel:
             data = excel.read()
-
+            excel.close()
         # file_wrapper = FileWrapper(file(file_path, 'rb'))
         response = excel_download_response(file_path, file_name, data)
         return response
@@ -259,12 +263,47 @@ def general_excel(request, type=''):
         work_sheet.append(heading_received)
 
         for each in all_expense_obj:
-            temp = [each.date, each.name, each.description, each.cost]
+            temp = [each.date.strftime('%d-%m-%Y'), each.name, each.description, each.cost]
             work_sheet.append(temp)
         file_path = os.path.join(MEDIA_ROOT, file_name)
         wb.save(file_path)
+
         with open(file_path, "rb") as excel:
             data = excel.read()
+            excel.close()
+        response = excel_download_response(file_path, file_name, data)
+        return response
+    if type == 'collection':
+        wb = Workbook()
+
+        sheet_name = 'Collection'
+
+        if sheet_name in wb:
+            wb.remove(wb[sheet_name])
+
+        file_name = sheet_name + '.xlsx'
+        work_sheet = wb.active
+        work_sheet.title = sheet_name
+
+        heading_received = ['Date', 'Total Income', 'Total Expenditure']
+        work_sheet.append(heading_received)
+
+        all_money = Money.objects.all()
+
+        for each in all_money:
+            temp = [each.date.strftime('%d-%m-%Y'), each.total_income, each.total_expenditure]
+            work_sheet.append(temp)
+
+        total_income = sum(all_money.values_list('total_income', flat=True))
+        total_expenditure = sum(all_money.values_list('total_expenditure', flat=True))
+        work_sheet.append(['Total', total_income, total_expenditure])
+
+        file_path = os.path.join(MEDIA_ROOT, file_name)
+        wb.save(file_path)
+
+        with open(file_path, "rb") as excel:
+            data = excel.read()
+            excel.close()
         response = excel_download_response(file_path, file_name, data)
         return response
     return render(request, 'general_excel.html')
@@ -277,8 +316,8 @@ def expenses(request):
         description = request.POST.get('description')
         date = request.POST.get('date')
 
-        Expense.objects.create(name=name, description=description, date=date, cost=cost)
-
+        e = Expense(name=name, description=description, date=date, cost=cost)
+        e.save()
         return render(request, 'expenses.html', {'message_type': 'success',
                                                  'message_title': 'Success',
                                                  'message': 'Expense has been added successfully'})
