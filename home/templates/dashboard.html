@@ -149,8 +149,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <input readonly class="form-control" value="{{ i }}"
-                                                       name="cloth_
-                                                               {{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                                       name="cloth_{{ forloop.parentloop.counter }}{{ forloop.counter }}">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -321,7 +320,7 @@
             document.getElementById('order_pk').value = order_pk;
             $('#cloth_detail_modal').modal('show');
         }
-
+``
         function change_status(pk, new_status) {
             $.ajax({
                 url: '{% url 'home:change_status' %}',
