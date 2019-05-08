@@ -321,6 +321,21 @@
             $('#cloth_detail_modal').modal('show');
         }
 
+        function change_status(pk, new_status) {
+            $.ajax({
+                url: '{% url 'home:change_status' %}',
+                type: 'post',
+                data: {
+                    'new_status' : new_status,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    swal('Success','Status changed','success');
+                    send_ajax();
+                }
+            });
+        }
+
         function show_modal(id) {
             let type = id.split('-')[0];
             let pk = id.split('-')[1];
@@ -345,14 +360,15 @@
             if (type == 'received_order') {
                 modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="open_cloth_detail_modal(' + pk + ',' + json[type][pk]['customer_pk'] + ',\'' + json[type][pk]['name'] + '\')">Add Clothwise Details</button>';
             } else if (type == 'clothwise_order') {
-
+                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',3)">Change status to Washing</button>';
             } else {
-
+                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',4)>Change status to Delivered</button>';
             }
 
 
             $('#order_detail_modal').modal('show');
         }
+
     </script>
 {% endblock home_script %}
 
