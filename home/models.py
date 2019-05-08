@@ -23,7 +23,7 @@ class Order(models.Model):
     received_date = models.DateField()
     delivery_date = models.DateField(null=True, blank=True)
     price = models.FloatField()
-    status = models.CharField(default=1,max_length=1)
+    status = models.CharField(default=1, max_length=1)
 
 
 # 1: only kg
@@ -36,11 +36,17 @@ class Category(models.Model):
     # to_show = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.category.name + ' ' + str(self.count)
 
 
 class Price(models.Model):
