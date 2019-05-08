@@ -4,6 +4,7 @@ from . import views
 
 app_name = 'home'
 
+
 urlpatterns = [
 
     # / - Home Page
@@ -23,6 +24,7 @@ urlpatterns = [
     # / register customer
     url(r'^daywise_excel/$', views.day_excel, name='daywise_excel'),
     # / General Excel
+    url(r'^general_excel/(?P<type>[\w]+)$', views.general_excel, name='general_excel'),
     url(r'^general_excel/$', views.general_excel, name='general_excel'),
 
 ]

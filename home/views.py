@@ -230,9 +230,9 @@ def day_excel(request):
         return render(request, 'reports.html')
 
 
-def general_excel(request, type):
-    if request.method == 'POST':
-        if type == 'all_expenses':
+def general_excel(request, type=''):
+    print(type)
+    if type == 'all':
             all_expense_obj = Expense.objects.all()
             wb = Workbook()
 
@@ -251,12 +251,12 @@ def general_excel(request, type):
                 temp = [each.date, each.name, each.description, each.cost]
                 work_sheet.append(temp)
             file_path = os.path.join(MEDIA_ROOT, file_name)
+            wb.save(file_path)
             with open(file_path, "rb") as excel:
                 data = excel.read()
             response = excel_download_response(file_path, file_name, data)
             return response
-    else:
-        return render(request, 'general_excel.html')
+    return render(request, 'general_excel.html')
 
 
 def expenses(request):
