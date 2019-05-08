@@ -22,6 +22,7 @@ from washing.settings import MEDIA_ROOT
 
 def order_to_dict(order):
     return {'name': order.customer.name, 'mobile': order.customer.mobile,
+            'customer_pk': order.customer.pk,
             'received_date': str(order.received_date), 'delivery_date': str(order.delivery_date),
             'order_pk': order.pk, 'price': str(order.price), 'kg': str(order.kg), 'status': order.status}
 
