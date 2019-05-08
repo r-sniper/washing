@@ -160,6 +160,10 @@
 <script src="{% static 'home/js/popper.js' %}"></script>
 <script src="{% static 'home/js/sweet-alert.min.js' %}"></script>
 
+{% block scripts %}
+
+{% endblock scripts %}
+
 <script>
     $(document).ready(function () {
         console.log("{{ message_type }}");
@@ -173,9 +177,7 @@
     {% endblock on_ready %}
 
 </script>
-{% block scripts %}
 
-{% endblock scripts %}
 
 </body>
 

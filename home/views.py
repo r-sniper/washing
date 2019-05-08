@@ -2,26 +2,27 @@ import datetime
 import json
 import mimetypes
 import os
-import random
 
-from django.core import serializers
-from django.utils.encoding import smart_str
-from openpyxl import Workbook
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.encoding import smart_str
+from openpyxl import Workbook
 
 from home.models import Customer, Price, Order, Category, OrderDetail, Expense, Money
 # Create your views here.
 from openpyxl.compat import file
 
 from home.models import Customer, Price, Order, Category, OrderDetail, Expense
-from washing import settings
 from washing.settings import MEDIA_ROOT
+
+
+# Create your views here.
 
 
 def order_to_dict(order):
     return {'name': order.customer.name, 'mobile': order.customer.mobile,
+            'customer_pk': order.customer.pk,
             'received_date': str(order.received_date), 'delivery_date': str(order.delivery_date),
             'order_pk': order.pk, 'price': str(order.price), 'kg': str(order.kg), 'status': order.status}
 
@@ -29,14 +30,18 @@ def order_to_dict(order):
 def home_page(request):
     if request.is_ajax():
         orders = Order.objects.filter(is_active=True).order_by('-received_date')
-        dict = {}
+        dict = {
+            'received_order': {},
+            'clothwise_order': {},
+            'washed_order': {}
+        }
 
         for each in orders.filter(status=1):
-            dict['received_order_' + str(each.pk)] = order_to_dict(each)
+            dict['received_order'][str(each.pk)] = order_to_dict(each)
         for each in orders.filter(status=2):
-            dict['clothwise_order_' + str(each.pk)] = order_to_dict(each)
+            dict['clothwise_order'][str(each.pk)] = order_to_dict(each)
         for each in orders.filter(status=3):
-            dict['washed_order_' + str(each.pk)] = order_to_dict(each)
+            dict['washed_order'][str(each.pk)] = order_to_dict(each)
             # for each in orders.filter(status=4):
             #     dict['delivered_order_' + each.pk] = serializers.serialize('json', each)
 
@@ -311,3 +316,23 @@ def expenses(request):
                                                  'message': 'Expense has been added successfully'})
     elif request.method == 'GET':
         return render(request, 'expenses.html')
+
+
+def clothwise(request):
+    if request.method == 'POST':
+        order_obj = Order.objects.get(pk=request.POST.get('order_pk'))
+        for each in request.POST:
+            if each.__contains__('cloth_'):
+                each_id = each.split('cloth_')[1]
+                cat_obj = Category.objects.get_or_create(name=request.POST.get(each), is_active=True)[0]
+                order_details = OrderDetail(order=order_obj, category=cat_obj,
+                                            count=int(request.POST.get('qty_' + each_id)))
+                order_details.save()
+        return HttpResponse('success')
+    return HttpResponse('failure')
+
+
+def change_status(request):
+    order = Order.objects.get(pk=int(request.POST.get('pk')))
+    order.status = int(request.POST.get('new_status'))
+    return HttpResponse('success')
