@@ -27,7 +27,7 @@
                             <!-- Suggestions will be displayed in below div. -->
                             <div id="search-wrap" class="hidden">
                                 <div id="live-search-result" class="suggestion-wrap">
-
+                                    <ul></ul>
                                 </div>
                             </div>
 
@@ -85,12 +85,14 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <input readonly class="form-control" value="{{ i }}"
-                                                       name="cloth_{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                                       name="cloth_
+                                                               {{ forloop.parentloop.counter }}{{ forloop.counter }}">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <input name="qty_{{ forloop.parentloop.counter }}{{ forloop.counter }}" min="0"
+                                                <input name="qty_{{ forloop.parentloop.counter }}{{ forloop.counter }}"
+                                                       min="0"
                                                        pattern="^\d*(\.\d{0,2})?$"
                                                        onkeyup="individual_kg();" type="number" class="form-control"
                                                        value="0">
@@ -200,8 +202,7 @@
 
         } else if (entered_kg.toString() == "NaN") {
             price_span.value = 0;
-        }
-        else {
+        } else {
             price_span.value = 'Invalid';
         }
 
