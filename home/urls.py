@@ -8,6 +8,8 @@ urlpatterns = [
 
     # / - Home Page
     url(r'^$', views.home_page, name='home_page'),
+    # orders page
+    url(r'^$', views.orders, name='orders'),
     # /get_customer
     url(r'^get_customer/$', views.get_customer, name='get_customer'),
     # /get_reports
