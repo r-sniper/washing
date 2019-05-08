@@ -515,3 +515,4 @@ body {
 .table-fit {
     width: 1px; !important;
 }
+.list-group-item {cursor: pointer;}
