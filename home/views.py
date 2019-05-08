@@ -10,7 +10,9 @@ from home.models import Customer, Price, Order, Category, OrderDetail
 
 
 def home_page(request):
-    return render(request, 'dashboard.html')
+    orders = Order.objects.filter(is_active=True)
+
+    return render(request, 'dashboard.html', {'orders': orders})
 
 
 def get_customer(request):
