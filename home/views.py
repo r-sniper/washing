@@ -40,6 +40,8 @@ def home_page(request):
         json_ = json.dumps(dict)
         return HttpResponse(json_)
     else:
+        cats = Category.objects.filter(is_active=True).values_list('name', flat=True)
+
         orders = Order.objects.filter(is_active=True).order_by('-received_date')
 
         return render(request, 'dashboard.html', {'received_orders': orders.filter(status=1),
@@ -49,7 +51,8 @@ def home_page(request):
                                                                                     received_date__range=(
                                                                                         datetime.datetime.today() - datetime.timedelta(
                                                                                             2),
-                                                                                        datetime.datetime.today()))})
+                                                                                        datetime.datetime.today())),
+                                                  'category': [cats[i:i + 2] for i in range(0, len(cats), 2)]})
 
 
 def get_customer(request):
