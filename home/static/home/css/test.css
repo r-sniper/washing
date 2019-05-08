@@ -511,3 +511,7 @@ body {
 .nav-item {
     float: right;
 }
+
+.table-fit {
+    width: 1px; !important;
+}

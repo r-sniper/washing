@@ -25,7 +25,7 @@ def home_page(request):
         orders = Order.objects.filter(is_active=True).order_by('-received_date')
         dict = {}
         for each in orders.filter(status=1):
-            dict['received_order_'+str(each.pk)] = serializers.serialize('json',[each])
+            dict['received_order_' + str(each.pk)] = serializers.serialize('json', [each])
         for each in orders.filter(status=2):
             dict['clothwise_order_' + str(each.pk)] = serializers.serialize('json', [each])
         for each in orders.filter(status=3):
@@ -156,26 +156,49 @@ def day_excel(request):
         date = datetime.datetime.strptime(cur_date, '%d-%m-%Y').date()
         print(cur_date)
         print(date)
-        received_orders = Order.objects.filter(Q(received_date=date))
+        day, month, year = date.day, date.month, date.year
+        received_orders = Order.objects.filter(received_date__year=year, received_date__month=month,
+                                               received_date__day=day)
+
+        delivered_orders = Order.objects.filter(delivery_date__year=year, delivery_date__month=month,
+                                                delivery_date__day=day)
 
         wb = Workbook()
-        if cur_date in wb:
-            wb.remove(wb[cur_date])
+
+        sheet_received_name = 'Received'
+        sheet_delivered_name = 'Delivered'
+
+        if sheet_delivered_name in wb:
+            wb.remove(wb[sheet_delivered_name])
+        if sheet_received_name in wb:
+            wb.remove(wb[sheet_received_name])
+
         file_name = date.strftime('%d-%m-%Y') + '.xlsx'
-        work_sheet = wb.active
-        work_sheet.title = cur_date
-        heading = ['Order Number', 'Customer', 'Price', 'kg', 'Status']
-        work_sheet.append(heading)
+        work_sheet_received = wb.active
+        work_sheet_received.title = 'Received'
+        heading_received = ['Order Number', 'Customer', 'Price', 'kg']
+        work_sheet_received.append(heading_received)
 
         for each_order in received_orders:
-            cur_status = 'Not Delivered'
-            if each_order.status == 4:
-                cur_status = 'Delivered'
-            temp = [each_order.pk, each_order.customer.name, each_order.price, each_order.kg, cur_status]
-            work_sheet.append(temp)
+            temp = [each_order.pk, each_order.customer.name, each_order.price, each_order.kg]
+            work_sheet_received.append(temp)
         # wb.save('media/' + file_name)
 
-        work_sheet.append([random.randint(5, 10)])
+        heading_delivered = ['Order Number', 'Customer', 'Price', 'kg', 'Received Date']
+
+        work_sheet_delivered = wb.create_sheet(title=sheet_delivered_name)
+        # work_sheet.title = 'Received'
+        work_sheet_delivered.append(heading_delivered)
+
+        for each_order in delivered_orders:
+            # cur_status = 'Not Delivered'
+            # if each_order.status == 4:
+            #     cur_status = 'Delivered'
+            temp = [each_order.pk, each_order.customer.name, each_order.price, each_order.kg,
+                    each_order.received_date.strftime('%d-%m-%Y')]
+            work_sheet_delivered.append(temp)
+
+        # work_sheet.append([random.randint(5, 10)])
         file_path = os.path.join(MEDIA_ROOT, file_name)
         wb.save(file_path)
 
@@ -193,3 +216,11 @@ def day_excel(request):
 
     else:
         return render(request, 'reports.html')
+
+
+def general_excel(request, type):
+    if request.method == 'POST':
+        if type == 'all_expenses':
+            pass
+    else:
+        return render(request, 'general_excel.html')

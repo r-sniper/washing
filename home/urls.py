@@ -20,5 +20,7 @@ urlpatterns = [
     url(r'^register_customer/$', views.customer_registration, name='register_customer'),
     # / register customer
     url(r'^daywise_excel/$', views.day_excel, name='daywise_excel'),
+    # / General Excel
+    url(r'^general_excel/$', views.general_excel, name='general_excel'),
 
 ]
