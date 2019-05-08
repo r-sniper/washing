@@ -1,12 +1,21 @@
 import datetime
 import json
+import mimetypes
+import os
+import random
 
+from django.utils.encoding import smart_str
+from openpyxl import Workbook
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
+from openpyxl.compat import file
+
 from home.models import Customer, Price, Order, Category, OrderDetail
+from washing import settings
+from washing.settings import MEDIA_ROOT
 
 
 def home_page(request):
@@ -17,9 +26,9 @@ def home_page(request):
                                               'washed_orders': orders.filter(status=3),
                                               'delivered_orders': orders.filter(status=4,
                                                                                 received_date__range=(
-                                                                                datetime.datetime.today() - datetime.timedelta(
-                                                                                    2),
-                                                                                datetime.datetime.today()))})
+                                                                                    datetime.datetime.today() - datetime.timedelta(
+                                                                                        2),
+                                                                                    datetime.datetime.today()))})
 
 
 def get_customer(request):
@@ -117,3 +126,48 @@ def new_order(request, customer_id):
             })
     else:
         return HttpResponse('No objects found with that id')
+
+
+def day_excel(request):
+    if request.method == 'POST':
+        cur_date = request.POST.get('daterange')
+        date = datetime.datetime.strptime(cur_date, '%d-%m-%Y').date()
+        print(cur_date)
+        print(date)
+        received_orders = Order.objects.filter(Q(received_date=date))
+
+        wb = Workbook()
+        if cur_date in wb:
+            wb.remove(wb[cur_date])
+        file_name = date.strftime('%d-%m-%Y') + '.xlsx'
+        work_sheet = wb.active
+        work_sheet.title = cur_date
+        heading = ['Order Number', 'Customer', 'Price', 'kg', 'Status']
+        work_sheet.append(heading)
+
+        for each_order in received_orders:
+            cur_status = 'Not Delivered'
+            if each_order.status == 4:
+                cur_status = 'Delivered'
+            temp = [each_order.pk, each_order.customer.name, each_order.price, each_order.kg, cur_status]
+            work_sheet.append(temp)
+        # wb.save('media/' + file_name)
+
+        work_sheet.append([random.randint(5, 10)])
+        file_path = os.path.join(MEDIA_ROOT, file_name)
+        wb.save(file_path)
+
+        with open(file_path, "rb") as excel:
+            data = excel.read()
+
+        # file_wrapper = FileWrapper(file(file_path, 'rb'))
+        file_mimetype = mimetypes.guess_type(file_path)
+        response = HttpResponse(data, content_type=file_mimetype)
+        response['X-Sendfile'] = file_path
+        response['Content-Length'] = os.stat(file_path).st_size
+        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(file_name)
+        return response
+
+
+    else:
+        return render(request, 'reports.html')
