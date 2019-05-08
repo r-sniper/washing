@@ -13,11 +13,9 @@ def home_page(request):
     orders = Order.objects.filter(is_active=True)
 
     return render(request, 'dashboard.html', {'received_orders': orders.filter(status=0),
-                                         'clothwise_orders': orders.filter(status=1),
-                                         'washed_orders': orders.filter(status=3),
-                                         'delivered_orders': orders.filter(status=4)})
-
-
+                                              'clothwise_orders': orders.filter(status=1),
+                                              'washed_orders': orders.filter(status=3),
+                                              'delivered_orders': orders.filter(status=4)})
 
 
 def get_customer(request):
