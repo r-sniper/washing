@@ -4,19 +4,17 @@ import mimetypes
 import os
 import random
 
-from django.core import serializers
-from django.utils.encoding import smart_str
-from openpyxl import Workbook
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.encoding import smart_str
+from openpyxl import Workbook
+
+from home.models import Customer, Price, Order, Category, OrderDetail, Expense
+from washing.settings import MEDIA_ROOT
+
 
 # Create your views here.
-from openpyxl.compat import file
-
-from home.models import Customer, Price, Order, Category, OrderDetail
-from washing import settings
-from washing.settings import MEDIA_ROOT
 
 
 def order_to_dict(order):
@@ -203,4 +201,14 @@ def day_excel(request):
 
 def expenses(request):
     if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        date = request.POST.get('date')
+
+        Expense.objects.create(name=name, description=description, date=date)
+
+        return render(request, 'expenses.html', {'message_type': 'success',
+                                                 'message_title': 'Success',
+                                                 'message': 'Expense has been added successfully'})
+    elif request.method == 'GET':
         return render(request, 'expenses.html')

@@ -25,16 +25,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet"
           type="text/css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-end fixed-top">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{% url 'home:home_page' %}">
         {#                <img src="/images/logo/QuickWash-navbar.svg" width="30" height="30" class="d-inline-block align-top">#}
-        <img src="" width="30" height="30" class="d-inline-block align-top">
-        QuickWash
+        {#        <img src="" width="30" height="30" class="glyphicon glyphicon-magnet">#}
+
+        <i class="material-icons">local_drink</i>
+        <span  >QuickWash</span>
     </a>
     <div class="collapse navbar-collapse mr-auto" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
@@ -103,77 +105,12 @@
             <!-- sidebar-search  -->
             <div class="sidebar-menu">
                 <ul>
-                    <li class="header-menu">
-                        <span>General</span>
-                    </li>
-                    <li class="sidebar-dropdown">
-                        <a href="#">
+
+                    <li>
+                        <a href="{% url 'home:home_page' %}">
                             <i class="fa fa-tachometer-alt"></i>
                             <span>Dashboard</span>
-                            <span class="badge badge-pill badge-warning">New</span>
                         </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Dashboard 1
-                                        <span class="badge badge-pill badge-success">Pro</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">Dashboard 2</a>
-                                </li>
-                                <li>
-                                    <a href="#">Dashboard 3</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="sidebar-dropdown">
-                        <a href="#">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span>E-commerce</span>
-                            <span class="badge badge-pill badge-danger">3</span>
-                        </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Products
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">Orders</a>
-                                </li>
-                                <li>
-                                    <a href="#">Credit cart</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="sidebar-dropdown">
-                        <a href="#">
-                            <i class="far fa-gem"></i>
-                            <span>Components</span>
-                        </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">General</a>
-                                </li>
-                                <li>
-                                    <a href="#">Panels</a>
-                                </li>
-                                <li>
-                                    <a href="#">Tables</a>
-                                </li>
-                                <li>
-                                    <a href="#">Icons</a>
-                                </li>
-                                <li>
-                                    <a href="#">Forms</a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
                     <li class="sidebar-dropdown">
                         <a href="#">
@@ -191,26 +128,16 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="header-menu">
-                        <span>Extra</span>
-                    </li>
                     <li>
-                        <a href="#">
-                            <i class="fa fa-book"></i>
-                            <span>Documentation</span>
-                            <span class="badge badge-pill badge-primary">Beta</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-calendar"></i>
-                            <span>Calendar</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
+                        <a href="{% url 'home:expenses' %}">
                             <i class="fa fa-folder"></i>
-                            <span>Examples</span>
+                            <span>Add Expenses</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'home:orders' %}">
+                            <i class="fa fa-folder"></i>
+                            <span>Show Orders</span>
                         </a>
                     </li>
                 </ul>

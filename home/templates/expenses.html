@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+    <main class="page-content">
+        <div class="container-fluid">
+            <div class="form-group">
+                <input name="name" class="form-control">
+                <input name="description" class="form-control">
+                <input name="date" class="form-control">
+            </div>
+        </div>
+    </main>
+{% endblock %}
