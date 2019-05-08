@@ -10,14 +10,16 @@ from home.models import Customer, Price, Order, Category, OrderDetail
 
 
 def home_page(request):
-    orders = Order.objects.filter(is_active=True,
-                                  received_date__range=(datetime.datetime.today() - datetime.timedelta(1),
-                                                        datetime.datetime.today())).order_by('-received_date')
+    orders = Order.objects.filter(is_active=True).order_by('-received_date')
 
-    return render(request, 'dashboard.html', {'received_orders': orders.filter(status=0),
-                                              'clothwise_orders': orders.filter(status=1),
+    return render(request, 'dashboard.html', {'received_orders': orders.filter(status=1),
+                                              'clothwise_orders': orders.filter(status=2),
                                               'washed_orders': orders.filter(status=3),
-                                              'delivered_orders': orders.filter(status=4)})
+                                              'delivered_orders': orders.filter(status=4,
+                                                                                received_date__range=(
+                                                                                datetime.datetime.today() - datetime.timedelta(
+                                                                                    2),
+                                                                                datetime.datetime.today()))})
 
 
 def get_customer(request):
@@ -81,7 +83,7 @@ def new_order(request, customer_id):
             # current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
             current_price = float(request.POST.get('price'))
             print(current_price)
-            order_obj = Order(customer=customer_obj, kg=kg, received_date=datetime.date.today(),
+            order_obj = Order(customer=customer_obj, kg=kg, received_date=datetime.datetime.today(),
                               price=current_price)
 
             order_obj.save()

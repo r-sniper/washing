@@ -47,7 +47,7 @@
         <div class="modal-dialog">
 
             <!-- Modal content-->
-            <form action="{% url 'home:register_customer' %}" onsubmit="register_request(event);" method="POST">
+            <form onsubmit="register_request(event);" method="POST">
                 {% csrf_token %}
                 <div class="modal-content">
                     <div class="modal-header">
@@ -60,24 +60,24 @@
                             <div class="form-group">
                                 <div class="row">
                                     <label for="name">Name *</label>
-                                    <input name="name" required type="text" class="form-control">
+                                    <input name="name" id="name" required type="text" class="form-control">
                                 </div>
 
                                 <div class="row">
                                     <label for="number">Phone Number *</label>
-                                    <input name="mobile" required type="number" class="form-control">
+                                    <input name="mobile" id="mobile" required type="number" class="form-control">
                                 </div>
 
                                 <div class="row">
                                     <label for="email">Email</label>
 
-                                    <input name="email" type="email" class="form-control">
+                                    <input name="email" id="email" type="email" class="form-control">
 
                                 </div>
                                 <div class="row">
                                     <label for="address">Address</label>
 
-                                    <input name="addresss" type="text" class="form-control">
+                                    <input name="address" id="address" type="text" class="form-control">
 
                                 </div>
                             </div>
@@ -108,13 +108,14 @@
     <script>
         function register_request(e) {
             e.preventDefault();
-            let name = document.getElementById('name');
-            let mobile = document.getElementById('mobile');
-            let email = document.getElementById('email');
-            let address = document.getElementById('address');
+            let name = document.getElementById('name').value;
+            let mobile = document.getElementById('mobile').value;
+            let email = document.getElementById('email').value;
+            let address = document.getElementById('address').value;
             var saveData = $.ajax({
                 type: 'POST',
                 url: "{% url 'home:register_customer' %}",
+
                 data: {
 
                     'csrfmiddlewaretoken': '{{ csrf_token }}',

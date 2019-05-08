@@ -14,7 +14,6 @@
                                 <h5 class="card-title">Receipt: {{ order.pk }}</h5>
                                 <p class="card-text">Name: {{ order.customer.name }}</p>
                                 <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
-                                <p class="card-text">Address: {{ order.customer.address }}</p>
                             </li>
                         {% endfor %}
                     </ul>
@@ -33,7 +32,6 @@
                                 <h5 class="card-title">Receipt: {{ order.pk }}</h5>
                                 <p class="card-text">Name: {{ order.customer.name }}</p>
                                 <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
-                                <p class="card-text">Address: {{ order.customer.address }}</p>
                             </li>
                         {% endfor %}
                     </ul>
@@ -45,18 +43,15 @@
                 <div class="card-header">
                     Orders awaiting delivery
                 </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        {% for order in clothwise_orders %}
-                            <li class="list-group-item">
-                                <h5 class="card-title">Receipt: {{ order.pk }}</h5>
-                                <p class="card-text">Name: {{ order.customer.name }}</p>
-                                <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
-                                <p class="card-text">Address: {{ order.customer.address }}</p>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                <ul class="list-group list-group-flush">
+                    {% for order in washed_orders %}
+                        <li class="list-group-item">
+                            <h5 class="card-title">Receipt: {{ order.pk }}</h5>
+                            <p class="card-text">Name: {{ order.customer.name }}</p>
+                            <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
 
