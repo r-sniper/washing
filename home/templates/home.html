@@ -19,14 +19,15 @@
                                     </span>
                                 </div>
                                 <div class="col-md-1">
-                                    <button class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="material-icons">person_add</i>
+                                    <button class="btn btn-success" data-toggle="modal" data-target="#myModal"><i
+                                            class="material-icons">person_add</i>
                                     </button>
                                 </div>
                             </div>
                             <!-- Suggestions will be displayed in below div. -->
                             <div id="search-wrap" class="row hidden" style="margin: .5% 0!important;">
                                 <div id="live-search-result" class="suggestion-wrap">
-
+                                    <ul></ul>
                                 </div>
                             </div>
 
@@ -164,7 +165,6 @@
                         for (var key in customers) {
                             console.log(customers[key]['name']);
                             live_obj.append('<li id=' + key + '>' + customers[key]['name'] + ' ' + customers[key]['mobile'] + '</li>');
-
                         }
 
                     }
