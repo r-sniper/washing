@@ -10,7 +10,9 @@ from home.models import Customer, Price, Order, Category, OrderDetail
 
 
 def home_page(request):
-    orders = Order.objects.filter(is_active=True, received_date=datetime.datetime.today())
+    orders = Order.objects.filter(is_active=True,
+                                  received_date__range=(datetime.datetime.today() - datetime.timedelta(1),
+                                                        datetime.datetime.today())).order_by('-received_date')
 
     return render(request, 'dashboard.html', {'received_orders': orders.filter(status=0),
                                               'clothwise_orders': orders.filter(status=1),
