@@ -27,7 +27,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-end">
+<nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-end fixed-top">
     <a class="navbar-brand" href="#">
         {#                <img src="/images/logo/QuickWash-navbar.svg" width="30" height="30" class="d-inline-block align-top">#}
         <img src="" width="30" height="30" class="d-inline-block align-top">
@@ -237,30 +237,11 @@
             <!-- sidebar-menu  -->
         </div>
         <!-- sidebar-content  -->
-        <div class="sidebar-footer">
-            <a href="#">
-                <i class="fa fa-bell"></i>
-                <span class="badge badge-pill badge-warning notification">3</span>
-            </a>
-            <a href="#">
-                <i class="fa fa-envelope"></i>
-                <span class="badge badge-pill badge-success notification">7</span>
-            </a>
-            <a href="#">
-                <i class="fa fa-cog"></i>
-                <span class="badge-sonar"></span>
-            </a>
-            <a href="#">
-                <i class="fa fa-power-off"></i>
-            </a>
-        </div>
     </nav>
     <!-- sidebar-wrapper  -->
-    <main class="page-content">
         {% block content %}
         {% endblock content %}
 
-    </main>
     <!-- page-content" -->
 </div>
 <!-- page-wrapper -->
@@ -272,7 +253,7 @@
 
 <script src="{% static 'home/css/test.js' %}"></script>
 <script src="{% static 'home/js/popper.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="{% static 'home/js/sweet-alert.min.js' %}"></script>
 
 <script>
     $(document).ready(function () {
