@@ -3,11 +3,24 @@
 {% block content %}
     <main class="page-content">
         <div class="container-fluid">
-            <div class="form-group">
-                <input name="name" class="form-control">
-                <input name="description" class="form-control">
-                <input name="date" class="form-control">
-            </div>
+            <form action="{% url 'home:expenses' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>
+                        <input name="name" required class="form-control" placeholder="Expense Type">
+                    </label><br>
+                    <label>
+                        <input name="description" class="form-control" placeholder="Description">
+                    </label><br>
+                    <label>
+                        <input type="date" required name="date" class="form-control">
+                    </label><br>
+                    <label>
+                        <input type="submit" class="form-control btn btn-success" value="Submit">
+                    </label>
+                </div>
+            </form>
         </div>
+
     </main>
 {% endblock %}
