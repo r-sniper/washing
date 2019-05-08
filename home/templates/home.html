@@ -5,7 +5,7 @@
     {#    <form>#}
     <main class="page-content">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row"    >
                 <div class="form-group col-md-12">
                     <div class="sidebar-search" style="width: 50% !important;">
                         <div>
@@ -36,6 +36,9 @@
                     </div>
                 </div>
             </div>
+
+            {% block home_content %}
+            {% endblock home_content %}
         </div>
     </main>
     {#    </form>#}
@@ -97,10 +100,9 @@
 
 {% block scripts %}
     <script>
-    $('#live-search-result').on('click', 'li', function () {
-
-       document.location.href = '/new_order/'+this.id+'/';
-    })
+        $('#live-search-result').on('click', 'li', function () {
+            document.location.href = '/new_order/' + this.id + '/';
+        })
     </script>
 
     <script>
@@ -162,7 +164,7 @@
                         let customers = JSON.parse(data);
                         for (var key in customers) {
                             console.log(customers[key]['name']);
-                            live_obj.append('<li id='+key+'>' + customers[key]['name'] +' '+customers[key]['mobile']  + '</li>');
+                            live_obj.append('<li id=' + key + '>' + customers[key]['name'] + ' ' + customers[key]['mobile'] + '</li>');
 
                         }
 
