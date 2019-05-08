@@ -308,4 +308,5 @@ def clothwise(request):
 def change_status(request):
     order = Order.objects.get(pk=int(request.POST.get('pk')))
     order.status = int(request.POST.get('new_status'))
+    order.save()
     return HttpResponse('success')
