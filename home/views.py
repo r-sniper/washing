@@ -33,12 +33,13 @@ def home_page(request):
             'clothwise_order': {},
             'washed_order': {}
         }
+
         for each in orders.filter(status=1):
-            dict['received_order'][str(each.pk)] = serializers.serialize('json', [each])
+            dict['received_order'][str(each.pk)] = order_to_dict(each)
         for each in orders.filter(status=2):
-            dict['clothwise_order'][str(each.pk)] = serializers.serialize('json', [each])
+            dict['clothwise_order'][str(each.pk)] = order_to_dict(each)
         for each in orders.filter(status=3):
-            dict['washed_order'][str(each.pk)] = serializers.serialize('json', [each])
+            dict['washed_order'][str(each.pk)] = order_to_dict(each)
             # for each in orders.filter(status=4):
             #     dict['delivered_order_' + each.pk] = serializers.serialize('json', each)
 
