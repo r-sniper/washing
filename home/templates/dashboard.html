@@ -8,15 +8,20 @@
                     New Orders (Awaiting Evaluation)
                 </div>
                 <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        {% for order in received_orders %}
-                            <li class="list-group-item">
-                                <h5 class="card-title">Receipt: {{ order.pk }}</h5>
-                                <p class="card-text">Name: {{ order.customer.name }}</p>
-                                <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    {% if received_orders %}
+                        <ul class="list-group list-group-flush">
+                            {% for order in received_orders %}
+                                <li class="list-group-item">
+                                    <h5 class="card-title">Receipt: {{ order.pk }}</h5>
+                                    <p class="card-text">Name: {{ order.customer.name }}</p>
+                                    <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
+                                    <p class="card-text">Order date: {{ order.received_date }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <h6 class="card-subtitle text-muted text-center">No Orders</h6>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -26,15 +31,20 @@
                     Orders awaiting washing
                 </div>
                 <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        {% for order in clothwise_orders %}
-                            <li class="list-group-item">
-                                <h5 class="card-title">Receipt: {{ order.pk }}</h5>
-                                <p class="card-text">Name: {{ order.customer.name }}</p>
-                                <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    {% if clothwise_orders %}
+                        <ul class="list-group list-group-flush">
+                            {% for order in clothwise_orders %}
+                                <li class="list-group-item" >
+                                    <h5 class="card-title">Receipt: {{ order.pk }}</h5>
+                                    <p class="card-text">Name: {{ order.customer.name }}</p>
+                                    <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
+                                    <p class="card-text">Order date: {{ order.received_date }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <h6 class="card-subtitle text-muted text-center">No Orders</h6>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -43,15 +53,22 @@
                 <div class="card-header">
                     Orders awaiting delivery
                 </div>
-                <ul class="list-group list-group-flush">
-                    {% for order in washed_orders %}
-                        <li class="list-group-item">
-                            <h5 class="card-title">Receipt: {{ order.pk }}</h5>
-                            <p class="card-text">Name: {{ order.customer.name }}</p>
-                            <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
+                <div class="card-body">
+                    {% if washed_orders %}
+                        <ul class="list-group list-group-flush">
+                            {% for order in washed_orders %}
+                                <li class="list-group-item">
+                                    <h5 class="card-title">Receipt: {{ order.pk }}</h5>
+                                    <p class="card-text">Name: {{ order.customer.name }}</p>
+                                    <p class="card-text">Mobile: {{ order.customer.mobile }}</p>
+                                    <p class="card-text">Delivery Date: {{ order.delivery_date }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <h6 class="card-subtitle text-muted text-center">No Orders</h6>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
