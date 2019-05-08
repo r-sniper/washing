@@ -11,7 +11,7 @@
                     {% if received_orders %}
                         <ul class="list-group list-group-flush">
                             {% for order in received_orders %}
-                                <li class="list-group-item">
+                                <li class="list-group-item" data-toggle="modal" data-target="#order_detail_modal">
                                     <h5 class="card-title">Receipt: {{ order.pk }}</h5>
                                     <p class="card-text">
                                         Name: {{ order.customer.name }}<br/>
@@ -78,5 +78,30 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- The Order Detail Modal -->
+    <div class="modal fade" id="order_detail_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Modal body..
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 {% endblock home_content %}
