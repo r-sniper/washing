@@ -116,7 +116,7 @@
                 </div>
 
                 <!-- Modal body -->
-                <form action="{% url 'home:new_order' customer_id=customer_obj.id %}" method="POST" id="order_form"
+                <form action="#" method="POST" id="order_form"
                       onsubmit="return confirm_form(event);">
                     <div class="modal-body" id="modal_body">
                         <div class="form-group">
@@ -124,7 +124,7 @@
                             <input name="customer_id" value="{{ customer_obj.id }}" hidden>
                         </div>
 
-                        <div class="form-group" id="or_div" style="display: none;">
+                        <div class="form-group" id="or_div">
                             <div class="row">
                                 <div class="col-md-4 form-group">
                                     <label for="qty">Cloth Type</label>
@@ -166,11 +166,8 @@
 
                     <!-- Modal footer -->
                     <div class="modal-footer" id="modal_footer">
-                        <input type='submit' class="btn btn-dark" name="ind_kg"
+                        <input type='submit' class="btn btn-primary" name="ind_kg"
                                value="Submit">
-                        <input onclick="total_wise();" class="btn btn-dark" name="total_wise_button"
-                               id="total_wise_button"
-                               value="Enter Total KG Only">
                     </div>
                 </form>
 
@@ -336,7 +333,7 @@
 
             let modal_footer = document.getElementById('modal_footer');
             if (type == 'received_order') {
-                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cloth_detail_modal">Add Clothwise Details</button>';
+                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="open_cloth_detail_modal(' + pk +',' +  +')">Add Clothwise Details</button>';
             } else if (type == 'clothwise_order') {
 
             } else {
