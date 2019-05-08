@@ -77,6 +77,10 @@ def get_customer(request):
         return HttpResponse('Error:Not ajax')
 
 
+
+
+
+
 def get_reports(request):
     return render(request, 'reports.html')
 
@@ -133,6 +137,9 @@ def new_order(request, customer_id):
                         order_details = OrderDetail(order=order_obj, category=cat_obj,
                                                     count=int(request.POST.get('qty_' + each_id)))
                         order_details.save()
+
+                order_obj.status = 2
+                order_obj.save()
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
                 'price_json': json.dumps(price_json),
@@ -281,13 +288,18 @@ def expenses(request):
 
 def clothwise(request):
     if request.method == 'POST':
-        order_obj = Order.objects.get(pk=request.POST.get('order_pk'))
+        order_obj = Order.objects.get(pk=int(request.POST.get('order_pk')))
         for each in request.POST:
             if each.__contains__('cloth_'):
                 each_id = each.split('cloth_')[1]
                 cat_obj = Category.objects.get_or_create(name=request.POST.get(each), is_active=True)[0]
                 order_details = OrderDetail(order=order_obj, category=cat_obj,
                                             count=int(request.POST.get('qty_' + each_id)))
+
                 order_details.save()
-        return HttpResponse('success')
+        order_obj.status = 2
+        order_obj.save()
+        return render(request, 'dashboard.html', {'message_type': 'success',
+                                                 'message_title': 'Success',
+                                                 'message': 'Clothwise details updated successfully'})
     return HttpResponse('failure')
