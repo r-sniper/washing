@@ -10,7 +10,7 @@ from home.models import Customer, Price, Order, Category, OrderDetail
 
 
 def home_page(request):
-    return render(request, 'home.html')
+    return render(request, 'dashboard.html')
 
 
 def get_customer(request):
