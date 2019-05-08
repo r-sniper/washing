@@ -19,8 +19,8 @@ class Customer(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     # user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, null=True)
-    kg = models.DecimalField(max_digits=6, decimal_places=2, editable=True)
-    received_date = models.DateTimeField(editable=True)
+    kg = models.DecimalField(max_digits=6, decimal_places=2)
+    received_date = models.DateTimeField()
     delivery_date = models.DateTimeField(null=True, blank=True)
     price = models.FloatField()
     status = models.CharField(default=1, max_length=1)
@@ -53,3 +53,9 @@ class OrderDetail(models.Model):
 class Price(models.Model):
     kg = models.DecimalField(max_digits=6, decimal_places=2)
     cost = models.PositiveIntegerField()
+
+
+class Expense(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=60, null=True, blank=True)
+    date = models.DateField()

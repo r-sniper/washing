@@ -9,7 +9,7 @@ urlpatterns = [
     # / - Home Page
     url(r'^$', views.home_page, name='home_page'),
     # orders page
-    url(r'^$', views.orders, name='orders'),
+    url(r'^orders/$', views.orders, name='orders'),
     # /get_customer
     url(r'^get_customer/$', views.get_customer, name='get_customer'),
     # /get_reports
@@ -18,5 +18,7 @@ urlpatterns = [
     url(r'^new_order/(?P<customer_id>[0-9]+)/$', views.new_order, name='new_order'),
     # / register customer
     url(r'^register_customer/$', views.customer_registration, name='register_customer'),
+    # / register customer
+    url(r'^daywise_excel/$', views.day_excel, name='daywise_excel'),
 
 ]
