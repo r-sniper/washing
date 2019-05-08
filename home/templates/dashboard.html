@@ -118,6 +118,7 @@
                 <!-- Modal body -->
                 <form action="{% url 'home:clothwise' %}" method="POST" id="order_form"
                       onsubmit="return confirm_form(event);">
+                {% csrf_token %}
                     <div class="modal-body" id="modal_body">
                         <h5 class="lead" id="modal_subtitle"></h5>
 
@@ -148,8 +149,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <input readonly class="form-control" value="{{ i }}"
-                                                       name="cloth_
-                                                               {{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                                       name="cloth_{{ forloop.parentloop.counter }}{{ forloop.counter }}">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -314,12 +314,12 @@
         }
     }
 
-    function open_cloth_detail_modal(order_pk, cust_pk, cust_name) {
-        document.getElementById('modal_subtitle').innerHTML = 'Customer: ' + cust_name;
-        $('#customer_pk').value = cust_pk;
-        $('#order_pk').value = order_pk;
-        $('#cloth_detail_modal').modal('show');
-    }
+        function open_cloth_detail_modal(order_pk, cust_pk, cust_name) {
+            document.getElementById('modal_subtitle').innerHTML = 'Customer: ' + cust_name;
+            document.getElementById('customer_pk').value = cust_pk;
+            document.getElementById('order_pk').value = order_pk;
+            $('#cloth_detail_modal').modal('show');
+        }
 
     function change_status(pk, new_status) {
         $.ajax({
