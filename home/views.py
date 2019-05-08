@@ -113,7 +113,7 @@ def new_order(request, customer_id):
             return render(request, 'new_order.html', {
                 'customer_obj': customer_obj,
                 'price_json': json.dumps(price_json),
-                'category': [cats[i:i + 2] for i in range(0, len(cats), 2)]
+                'category': [cats[i:i+2] for i in range(0, len(cats), 2)]
             })
     else:
         return HttpResponse('No objects found with that id')
