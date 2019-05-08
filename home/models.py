@@ -20,10 +20,11 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, null=True)
     kg = models.DecimalField(max_digits=6, decimal_places=2)
-    received_date = models.DateField()
-    delivery_date = models.DateField(null=True, blank=True)
+    received_date = models.DateTimeField()
+    delivery_date = models.DateTimeField(null=True, blank=True)
     price = models.FloatField()
-    status = models.CharField(default=1,max_length=1)
+    status = models.CharField(default=1, max_length=1)
+    is_active = models.BooleanField(default=False)
 
 
 # 1: only kg
@@ -36,11 +37,17 @@ class Category(models.Model):
     # to_show = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.category.name + ' ' + str(self.count)
 
 
 class Price(models.Model):

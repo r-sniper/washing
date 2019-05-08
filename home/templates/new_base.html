@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Wool World</title>
@@ -62,23 +62,22 @@
 
         #sidebar {
             /* don't forget to add all the previously mentioned styles here too */
-            background: #7386D5;
-            color: #fff;
+            background: #f0f0f0;
+            color: #000000;
             transition: all 0.3s;
         }
 
         #sidebar .sidebar-header {
             padding: 20px;
-            background: #6d7fcc;
+            background: #a0a0a0;
         }
 
         #sidebar ul.components {
             padding: 20px 0;
-            border-bottom: 1px solid #47748b;
         }
 
         #sidebar ul p {
-            color: #fff;
+            color: #000;
             padding: 10px;
         }
 
@@ -86,22 +85,23 @@
             padding: 10px;
             font-size: 1.1em;
             display: block;
+            color: black;
         }
 
         #sidebar ul li a:hover {
-            color: #7386D5;
+            color: #000000;
             background: #fff;
         }
 
         #sidebar ul li.active > a, a[aria-expanded="true"] {
-            color: #fff;
-            background: #6d7fcc;
+            color: #000000;
+            background: #a0a0a0;
         }
 
         ul ul a {
             font-size: 0.9em !important;
             padding-left: 30px !important;
-            background: #6d7fcc;
+            background: #a0a0a0;
         }
 
     </style>
@@ -111,7 +111,6 @@
 
 <nav class="navbar navbar-expand-sm navbar-dark justify-content-end" style="background: #660034;">
     <a class="navbar-brand" href="#">
-        {#                <img src="/images/logo/QuickWash-navbar.svg" width="30" height="30" class="d-inline-block align-top">#}
         <img src="" width="30" height="30" class="d-inline-block align-top" alt="logo">
         QuickWash
     </a>
@@ -145,7 +144,7 @@
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
+            <h3>Dashboard</h3>
         </div>
 
         <ul class="list-unstyled components">
@@ -195,13 +194,13 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<script src="{% static 'home/js/jquery-3.3.1.slim.min.js' %}"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+<script src="{% static 'home/js/popper.min.js' %}"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+<script src="{% static 'home/js/bootstrap.min.js' %}"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <script>
