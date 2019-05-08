@@ -26,7 +26,7 @@ def order_to_dict(order):
 
 
 def home_page(request):
-    if request.is_ajax:
+    if request.is_ajax():
         orders = Order.objects.filter(is_active=True).order_by('-received_date')
         dict = {}
 
