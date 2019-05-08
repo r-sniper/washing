@@ -4,12 +4,14 @@
 
     {#    <form>#}
     <main class="page-content">
-		<!-- date picker link http://www.daterangepicker.com-->
-		<div class="alert alert-primary" role="alert" style="margin-left: 15%;width: 22%; padding: 0% 0.5% 0%;">
-       		<input type="text" id="daterangepicker" name="daterange" value="" 
-			   style="text-align: center;"
-			   />	
-		</div>
+        <!-- date picker link http://www.daterangepicker.com-->
+        <form action="#" method="post">
+            <div class="alert alert-primary" role="alert" style="margin-left: 15%;width: 22%; padding: 0% 0.5% 0%;">
+                <input type="text" id="daterangepicker" name="daterange" value=""
+                       style="text-align: center;"
+                />
+            </div>
+        </form>
     </main>
     {#    </form>#}
 
@@ -19,13 +21,13 @@
 
 {% block scripts %}
 
-	<script>
-		$(function() {
-		$('input[name="daterange"]').daterangepicker({
-			opens: 'center'
-		}, function(start, end, label) {
-			console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-		});
-		});
-	</script>
+    <script>
+        $(function () {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'center'
+            }, function (start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+        });
+    </script>
 {% endblock scripts %}
