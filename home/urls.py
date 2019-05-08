@@ -12,6 +12,8 @@ urlpatterns = [
     # orders page
     url(r'^orders/$', views.orders, name='orders'),
     # /get_customer
+    url(r'^clothwise/$', views.clothwise, name='clothwise'),
+    # /get_customer
     url(r'^expenses/$', views.expenses, name='expenses'),
     # /get_customer
     url(r'^get_customer/$', views.get_customer, name='get_customer'),

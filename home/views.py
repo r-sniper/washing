@@ -2,22 +2,18 @@ import datetime
 import json
 import mimetypes
 import os
-import random
 
-from django.core import serializers
-from django.utils.encoding import smart_str
-from openpyxl import Workbook
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.encoding import smart_str
+from openpyxl import Workbook
 
 from home.models import Customer, Price, Order, Category, OrderDetail, Expense
-# Create your views here.
-from openpyxl.compat import file
-
-from home.models import Customer, Price, Order, Category, OrderDetail, Expense
-from washing import settings
 from washing.settings import MEDIA_ROOT
+
+
+# Create your views here.
 
 
 def order_to_dict(order):
@@ -241,29 +237,29 @@ def day_excel(request):
 def general_excel(request, type=''):
     print(type)
     if type == 'all':
-            all_expense_obj = Expense.objects.all()
-            wb = Workbook()
+        all_expense_obj = Expense.objects.all()
+        wb = Workbook()
 
-            sheet_name = 'Expenses'
+        sheet_name = 'Expenses'
 
-            if sheet_name in wb:
-                wb.remove(wb[sheet_name])
+        if sheet_name in wb:
+            wb.remove(wb[sheet_name])
 
-            file_name = sheet_name + '.xlsx'
-            work_sheet = wb.active
-            work_sheet.title = sheet_name
-            heading_received = ['Date', 'Title', 'Description', 'Cost']
-            work_sheet.append(heading_received)
+        file_name = sheet_name + '.xlsx'
+        work_sheet = wb.active
+        work_sheet.title = sheet_name
+        heading_received = ['Date', 'Title', 'Description', 'Cost']
+        work_sheet.append(heading_received)
 
-            for each in all_expense_obj:
-                temp = [each.date, each.name, each.description, each.cost]
-                work_sheet.append(temp)
-            file_path = os.path.join(MEDIA_ROOT, file_name)
-            wb.save(file_path)
-            with open(file_path, "rb") as excel:
-                data = excel.read()
-            response = excel_download_response(file_path, file_name, data)
-            return response
+        for each in all_expense_obj:
+            temp = [each.date, each.name, each.description, each.cost]
+            work_sheet.append(temp)
+        file_path = os.path.join(MEDIA_ROOT, file_name)
+        wb.save(file_path)
+        with open(file_path, "rb") as excel:
+            data = excel.read()
+        response = excel_download_response(file_path, file_name, data)
+        return response
     return render(request, 'general_excel.html')
 
 
@@ -281,3 +277,17 @@ def expenses(request):
                                                  'message': 'Expense has been added successfully'})
     elif request.method == 'GET':
         return render(request, 'expenses.html')
+
+
+def clothwise(request):
+    if request.method == 'POST':
+        order_obj = Order.objects.get(pk=request.POST.get('order_pk'))
+        for each in request.POST:
+            if each.__contains__('cloth_'):
+                each_id = each.split('cloth_')[1]
+                cat_obj = Category.objects.get_or_create(name=request.POST.get(each), is_active=True)[0]
+                order_details = OrderDetail(order=order_obj, category=cat_obj,
+                                            count=int(request.POST.get('qty_' + each_id)))
+                order_details.save()
+        return HttpResponse('success')
+    return HttpResponse('failure')
