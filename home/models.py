@@ -17,7 +17,6 @@ class Customer(models.Model):
 
 
 class Order(models.Model):
-    order_no = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, null=True)
     kg = models.DecimalField(max_digits=6, decimal_places=2)
