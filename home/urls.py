@@ -11,6 +11,8 @@ urlpatterns = [
     # orders page
     url(r'^orders/$', views.orders, name='orders'),
     # /get_customer
+    url(r'^expenses/$', views.expenses, name='expenses'),
+    # /get_customer
     url(r'^get_customer/$', views.get_customer, name='get_customer'),
     # /get_reports
     url(r'^reports/$', views.get_reports, name='get_reports'),

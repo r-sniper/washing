@@ -202,3 +202,8 @@ def day_excel(request):
 
     else:
         return render(request, 'reports.html')
+
+
+def expenses(request):
+    if request.method == 'POST':
+        return render(request, 'expenses.html')
