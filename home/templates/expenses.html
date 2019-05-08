@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+    <main class="page-content">
+        <div class="container-fluid">
+            <form action="{% url 'home:expenses' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>
+                        <input name="name" required class="form-control" placeholder="Expense Type">
+                    </label><br>
+                    <label>
+                        <input name="description" class="form-control" placeholder="Description">
+                    </label><br>
+                    <label>
+                        <input id="daterangepicker" placeholder="Date" autocomplete="off" required name="date" class="form-control">
+                    </label><br>
+                    <label>
+                        <input type="submit" class="form-control btn btn-success" value="Submit">
+                    </label>
+                </div>
+            </form>
+        </div>
+
+    </main>
+{% endblock %}
+
+{% block scripts %}
+
+	<script>
+		$(function() {
+		$('input[id="daterangepicker"]').datepicker({
+            format:'yyyy-mm-dd',
+			opens: 'center'
+		}, function(start, end, label) {
+			{#console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));#}
+		});
+		});
+	</script>
+{% endblock scripts %}
