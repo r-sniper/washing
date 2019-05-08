@@ -8,28 +8,34 @@ from django.core import serializers
 from django.utils.encoding import smart_str
 from openpyxl import Workbook
 from django.db.models import Q
-from django.forms import model_to_dict
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 from openpyxl.compat import file
 
-from home.models import Customer, Price, Order, Category, OrderDetail
+from home.models import Customer, Price, Order, Category, OrderDetail, Expense
 from washing import settings
 from washing.settings import MEDIA_ROOT
+
+
+def order_to_dict(order):
+    return {'name': order.customer.name, 'mobile': order.customer.mobile,
+            'received_date': str(order.received_date), 'delivery_date': str(order.delivery_date),
+            'order_pk': order.pk, 'price': str(order.price), 'kg': str(order.kg), 'status': order.status}
 
 
 def home_page(request):
     if request.is_ajax():
         orders = Order.objects.filter(is_active=True).order_by('-received_date')
         dict = {}
+
         for each in orders.filter(status=1):
-            dict['received_order_' + str(each.pk)] = serializers.serialize('json', [each])
+            dict['received_order_' + str(each.pk)] = order_to_dict(each)
         for each in orders.filter(status=2):
-            dict['clothwise_order_' + str(each.pk)] = serializers.serialize('json', [each])
+            dict['clothwise_order_' + str(each.pk)] = order_to_dict(each)
         for each in orders.filter(status=3):
-            dict['washed_order_' + str(each.pk)] = serializers.serialize('json', [each])
+            dict['washed_order_' + str(each.pk)] = order_to_dict(each)
             # for each in orders.filter(status=4):
             #     dict['delivered_order_' + each.pk] = serializers.serialize('json', each)
 
@@ -147,7 +153,16 @@ def new_order(request, customer_id):
 
 def orders(request):
     orders = Order.objects.filter(is_active=True).order_by('-received_date')
-    return render(request, 'orders.html', {'orders', orders})
+    return render(request, 'orders.html', {'orders': orders})
+
+
+def excel_download_response(file_path, file_name, data):
+    file_mimetype = mimetypes.guess_type(file_path)
+    response = HttpResponse(data, content_type=file_mimetype)
+    response['X-Sendfile'] = file_path
+    response['Content-Length'] = os.stat(file_path).st_size
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(file_name)
+    return response
 
 
 def day_excel(request):
@@ -206,11 +221,7 @@ def day_excel(request):
             data = excel.read()
 
         # file_wrapper = FileWrapper(file(file_path, 'rb'))
-        file_mimetype = mimetypes.guess_type(file_path)
-        response = HttpResponse(data, content_type=file_mimetype)
-        response['X-Sendfile'] = file_path
-        response['Content-Length'] = os.stat(file_path).st_size
-        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(file_name)
+        response = excel_download_response(file_path, file_name, data)
         return response
 
 
@@ -221,6 +232,32 @@ def day_excel(request):
 def general_excel(request, type):
     if request.method == 'POST':
         if type == 'all_expenses':
-            pass
+            all_expense_obj = Expense.objects.all()
+            wb = Workbook()
+
+            sheet_name = 'Expenses'
+
+            if sheet_name in wb:
+                wb.remove(wb[sheet_name])
+
+            file_name = sheet_name + '.xlsx'
+            work_sheet = wb.active
+            work_sheet.title = sheet_name
+            heading_received = ['Date', 'Title', 'Description', 'Cost']
+            work_sheet.append(heading_received)
+
+            for each in all_expense_obj:
+                temp = [each.date, each.name, each.description, each.cost]
+                work_sheet.append(temp)
+            file_path = os.path.join(MEDIA_ROOT, file_name)
+            with open(file_path, "rb") as excel:
+                data = excel.read()
+            response = excel_download_response(file_path, file_name, data)
+            return response
     else:
         return render(request, 'general_excel.html')
+
+
+def expenses(request):
+    if request.method == 'POST':
+        return render(request, 'expenses.html')
