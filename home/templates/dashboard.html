@@ -120,9 +120,8 @@
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function (data) {
-                    console.log(data);
-                    //
-                    // populate_orders(data);
+                    {#console.log(JSON.parse(data));#}
+                    populate_orders(data);
                 }
             });
         }
@@ -131,8 +130,10 @@
             let json = JSON.parse(data);
             console.log(json);
             let received_card = document.getElementById('received_order');
-            if (json['received_order'].length > 0) {
+            if (Object.keys(json['received_order']).length > 0) {
                 for (let order in json['received_order']) {
+                    let inner_json = JSON.parse(json['received_order'][order][0]);
+                    console.log(inner_json);
                     received_card.innerHTML = "";
                     {#<ul class="list-group list-group-flush">#}
                     {#        {% for order in received_orders %}#}
@@ -162,12 +163,11 @@
                     heading.innerHTML = 'Receipt:' + order;
 
 
-                    let inner_json = JSON.parse(json['received_order'][order][0]);
-                    console.log(inner_json);
+
 
                     let para = document.createElement('p');
                     para.setAttribute('class', 'card-text');
-                    para.innerHTML = "Name: " + inner_json['fields'][]
+                    para.innerHTML = "Name: " + inner_json['fields']
 
                 }
             } else {
