@@ -3,6 +3,7 @@ import json
 import mimetypes
 import os
 
+import openpyxl
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -80,10 +81,6 @@ def get_customer(request):
             return HttpResponse('Error:Null query')
     else:
         return HttpResponse('Error:Not ajax')
-
-
-
-
 
 
 def get_reports(request):
@@ -348,3 +345,48 @@ def change_status(request):
     order.status = int(request.POST.get('new_status'))
     order.save()
     return HttpResponse('success')
+
+
+def download_receipt(request, pk):
+    order = Order.objects.get(pk=int(pk))
+
+    source_path = os.path.join(MEDIA_ROOT, 'receipt.xlsx')
+
+    source_wb = openpyxl.load_workbook(source_path)
+
+    source_worksheet = source_wb.active
+
+    wb = Workbook()
+
+    sheet_name = 'Receipt'
+
+    if sheet_name in wb:
+        wb.remove(wb[sheet_name])
+
+    wb.copy_worksheet(source_worksheet)
+
+    file_name = pk + '.xlsx'
+    work_sheet = wb.active
+    work_sheet.title = sheet_name
+
+    work_sheet.cell(row=9, column=4).value = '#' + str(order.pk)
+    work_sheet.cell(row=9, column=6).value = 'Kg: ' + str(order.kg)
+    work_sheet.cell(row=9, column=7).value = 'Cost: ' + str(order.price)
+
+    start_row = 13
+    col1 = 2
+    col2 = 5
+    order_details = order.orderdetail_set.all()
+
+    for each in order_details:
+        work_sheet.cell(row=start_row, column=col1).value = each.category.name
+        work_sheet.cell(row=start_row, column=col2).value = each.count
+
+    file_path = os.path.join(MEDIA_ROOT, file_name)
+    wb.save(file_path)
+
+    with open(file_path, "rb") as excel:
+        data = excel.read()
+        excel.close()
+    response = excel_download_response(file_path, file_name, data)
+    return response
