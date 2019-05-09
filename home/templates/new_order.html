@@ -186,7 +186,7 @@
         price_json = '{{ price_json | safe }}';
         price_json = JSON.parse(price_json);
         cur_key = 1;
-        {#console.log(price_json);#}
+        console.log(price_json);
         if (entered_kg >= 0) {
             for (kg_key in price_json) {
                 if (kg_key >= entered_kg) {
@@ -196,9 +196,9 @@
                     cur_key = kg_key;
                 }
             }
-            {#console.log(parseFloat(price_json[cur_key]));#}
-            {#console.log(parseFloat(entered_kg));#}
-            price_span.value = (parseFloat(price_json[cur_key]) * parseFloat(entered_kg)).toFixed(2);
+            console.log(parseFloat(price_json[cur_key]));
+            console.log(parseFloat(entered_kg));
+            price_span.value = Math.round(parseFloat(price_json[cur_key]) * parseFloat(entered_kg).toFixed(2));
 
         } else if (entered_kg.toString() == "NaN") {
             price_span.value = 0;

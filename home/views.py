@@ -3,6 +3,7 @@ import json
 import mimetypes
 import os
 import shutil
+from collections import OrderedDict
 
 import openpyxl
 from django.db.models import Q
@@ -108,10 +109,11 @@ def new_order(request, customer_id):
 
         if request.method == 'POST':
             kg = float(request.POST.get('kg'))
-            price_json = {}
+            price_json = OrderedDict()
             all_price = Price.objects.all().order_by('kg')
             for each_price in all_price:
                 price_json[str(each_price.kg)] = each_price.cost
+            price_json = OrderedDict(sorted(price_json.items()))
             if kg < 0:
                 return render(request, 'new_order.html', {
                     'customer_obj': customer_obj,
@@ -386,10 +388,10 @@ def download_receipt(request, pk):
     order_details = order.orderdetail_set.all()
 
     for each in order_details:
-        if each.count>0:
+        if each.count > 0:
             work_sheet.cell(row=start_row, column=col1).value = each.category.name
             work_sheet.cell(row=start_row, column=col2).value = each.count
-            start_row+=1
+            start_row += 1
     # work_sheet.ExportAsFixedFormat
     wb.save(file_path)
     wb.close()
