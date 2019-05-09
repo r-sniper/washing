@@ -182,7 +182,7 @@
 {% block home_script %}
     <script>
 
-        setInterval(send_ajax, 5000);
+        setInterval(send_ajax, 100000);
 
         function send_ajax() {
             $.ajax({
@@ -301,7 +301,7 @@
 
                     let para = document.createElement('p');
                     para.setAttribute('class', 'card-text');
-                    para.innerHTML = "Name: " + json['washed_order'][order]['name'] + "<br/>Mobile: " + json['washed_order'][order]['mobile'] + "<br/>Delivery Date: " + json['washed_order'][order]['delivery_date'];
+                    para.innerHTML = "Name: " + json['washed_order'][order]['name'] + "<br/>Mobile: " + json['washed_order'][order]['mobile'] + "<br/>Order Date: " + json['washed_order'][order]['received_date'];
 
                     li.appendChild(heading);
                     li.appendChild(para);

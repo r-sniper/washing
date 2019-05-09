@@ -9,12 +9,12 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import smart_str
 from openpyxl import Workbook
 
-from home.models import Customer, Price, Order, Category, OrderDetail, Expense, Money
-# Create your views here.
-from openpyxl.compat import file
-
 from home.models import Customer, Price, Order, Category, OrderDetail, Expense
+from home.models import Money
 from washing.settings import MEDIA_ROOT
+
+
+# Create your views here.
 
 
 # Create your views here.
@@ -23,7 +23,10 @@ from washing.settings import MEDIA_ROOT
 def order_to_dict(order):
     return {'name': order.customer.name, 'mobile': order.customer.mobile,
             'customer_pk': order.customer.pk,
-            'received_date': str(order.received_date.strftime('%Y-%m-%d %H:%M')), 'delivery_date': str(order.delivery_date.strftime('%Y-%m-%d %H:%M')),
+            'received_date': str(
+                order.received_date.strftime('%Y-%m-%d %I:%M %p')) if order.received_date is not None else 'N.A.',
+            'delivery_date': str(
+                order.delivery_date.strftime('%Y-%m-%d %I:%M %p')) if order.delivery_date is not None else 'N.A.',
             'order_pk': order.pk, 'price': str(order.price), 'kg': str(order.kg), 'status': order.status,
             'address': order.customer.address}
 
@@ -58,9 +61,9 @@ def home_page(request):
                                                   'washed_orders': orders.filter(status=3),
                                                   'delivered_orders': orders.filter(status=4,
                                                                                     received_date__range=(
-                                                                                        datetime.datetime.today() - datetime.timedelta(
+                                                                                        datetime.datetime.now() - datetime.timedelta(
                                                                                             2),
-                                                                                        datetime.datetime.today())),
+                                                                                        datetime.datetime.now())),
                                                   'category': [cats[i:i + 2] for i in range(0, len(cats), 2)]})
 
 
@@ -80,10 +83,6 @@ def get_customer(request):
             return HttpResponse('Error:Null query')
     else:
         return HttpResponse('Error:Not ajax')
-
-
-
-
 
 
 def get_reports(request):
@@ -129,7 +128,7 @@ def new_order(request, customer_id):
             # current_price = Price.objects.order_by('-kg').filter(kg__lte=kg)[:1][0]
             current_price = float(request.POST.get('price'))
             print(current_price)
-            order_obj = Order(customer=customer_obj, kg=kg, received_date=datetime.datetime.today(),
+            order_obj = Order(customer=customer_obj, kg=kg, received_date=datetime.datetime.now(),
                               price=current_price)
 
             order_obj.save()
@@ -344,7 +343,10 @@ def clothwise(request):
 
 
 def change_status(request):
+    new_ = int(request.POST.get('new_status'))
     order = Order.objects.get(pk=int(request.POST.get('pk')))
-    order.status = int(request.POST.get('new_status'))
+    order.status = new_
+    if new_ == 4:
+        order.delivery_date = datetime.datetime.now()
     order.save()
     return HttpResponse('success')
