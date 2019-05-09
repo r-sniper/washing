@@ -355,7 +355,7 @@
 
 
             let modal_body = document.getElementById('modal_body');
-            modal_body.innerHTML = "<p>Receipt No: " + pk + "<br>Name: " + json[type][pk]['name'] + "<br>Mobile: " + json[type][pk]['mobile'] + "<br>Address: " + json[type][pk]['address'] + "<br>Status: " + status + "<br>Quantity: " + json[type][pk]['kg'];
+            modal_body.innerHTML = "<p>Receipt No: " + pk + "<br>Name: " + json[type][pk]['name'] + "<br>Mobile: " + json[type][pk]['mobile'] + "<br>Address: " + json[type][pk]['address'] + "<br>Status: " + status + "<br>Quantity: " + json[type][pk]['kg'] + "kg";
 
             let modal_footer = document.getElementById('modal_footer');
             if (type == 'received_order') {
