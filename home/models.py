@@ -41,28 +41,29 @@ class Order(models.Model):
         elif self.status == 2:
             subject = 'Order Details'
             msg = '<b>Order Details:</b><br>' \
-                  'Order No: ' + str(self.pk) +'<br>Total Weight: ' + str(self.kg) + ' Kg<br>Price: ' + str(self.price) \
+                  'Order No: ' + str(self.pk) + '<br>Total Weight: ' + str(self.kg) + ' Kg<br>Price: ' + str(self.price) \
                   + '<br><b>Clothes Type</b><br>'
             tmp = ''
             for each in self.orderdetail_set.all():
-                if each.count >0:
+                if each.count > 0:
                     tmp += each.category.name + ': ' + str(each.count) + '<br>'
             msg += tmp
         elif self.status == 3:
             subject = 'Order Pick-up Reminder'
             msg = 'Order Details<br>' \
-                  'Order No: ' + str(self.pk) +'<br>Total Weight: ' + str(self.kg) + ' Kg<br>Price: ' + str(self.price) + '<br>Order No: ' + str(self.pk) \
+                  'Order No: ' + str(self.pk) + '<br>Total Weight: ' + str(self.kg) + ' Kg<br>Price: ' + str(
+                self.price) + '<br>Order No: ' + str(self.pk) \
                   + '<br><br>Your order has been successfully washed. Kindly collect your clothes from Wool World.<br>' \
                   + '<br>Hope to be at your service again.'
         elif self.status == 4:
             subject = 'Order Delivered'
             msg = 'Order Details<br>' \
-                  'Order No: ' + str(self.pk)+'<br>Total Weight: ' + str(self.kg) + ' Kg<br>Price: ' + str(self.price) \
+                  'Order No: ' + str(self.pk) + '<br>Total Weight: ' + str(self.kg) + ' Kg<br>Price: ' + str(self.price) \
                   + '<br>Your order has been successfully delivered on <br>' + (
                       self.delivery_date.strftime('%d %m %y, %I %M %p')) \
                   + '<br><br>Hope to be at your service again.'
 
-        send_email('akzarma@gmail.com', subject, msg)
+        send_email(self.customer.email, subject, msg)
         price = self.price
         date = self.delivery_date
         if date:

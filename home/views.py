@@ -168,7 +168,7 @@ def new_order(request, customer_id):
 
 
 def orders(request):
-    orders = Order.objects.filter(is_active=True).order_by('-received_date')
+    orders = Order.objects.filter(is_active=True).order_by('-pk')
     return render(request, 'orders.html', {'orders': orders})
 
 
@@ -350,3 +350,7 @@ def change_status(request):
         order.delivery_date = datetime.datetime.now()
     order.save()
     return HttpResponse('success')
+
+
+def download_receipt(request, pk):
+    return None
