@@ -2,7 +2,9 @@ import datetime
 import json
 import mimetypes
 import os
+import shutil
 
+import openpyxl
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -12,12 +14,6 @@ from openpyxl import Workbook
 from home.models import Customer, Price, Order, Category, OrderDetail, Expense
 from home.models import Money
 from washing.settings import MEDIA_ROOT
-
-
-# Create your views here.
-
-
-# Create your views here.
 
 
 def order_to_dict(order):
@@ -353,5 +349,52 @@ def change_status(request):
     return HttpResponse('success')
 
 
+def iter_rows(ws, n):  # produce the list of items in the particular row
+    for row in ws.iter_rows(n):
+        yield [cell.value for cell in row]
+
+
 def download_receipt(request, pk):
-    return None
+    order = Order.objects.get(pk=int(pk))
+
+    source_path = os.path.join(MEDIA_ROOT, 'receipt.xlsx')
+
+    # source_wb = openpyxl.load_workbook(source_path)
+
+    # source_worksheet = source_wb.active
+
+    wb = openpyxl.load_workbook(source_path)
+
+    sheet_name = 'Receipt'
+
+    # wb.copy_worksheet(source_worksheet)
+    file_name = pk + '.xlsx'
+    file_path = os.path.join(MEDIA_ROOT, file_name)
+
+    shutil.copy(source_path, file_path)
+    wb = openpyxl.load_workbook(file_path)
+    work_sheet = wb.active
+    work_sheet.title = sheet_name
+
+    work_sheet.cell(row=9, column=4).value = '#' + str(order.pk)
+    work_sheet.cell(row=9, column=5).value = 'Kg: ' + str(order.kg)
+    work_sheet.cell(row=9, column=6).value = 'Cost: ' + str(order.price)
+
+    start_row = 13
+    col1 = 2
+    col2 = 5
+    order_details = order.orderdetail_set.all()
+
+    for each in order_details:
+        if each.count>0:
+            work_sheet.cell(row=start_row, column=col1).value = each.category.name
+            work_sheet.cell(row=start_row, column=col2).value = each.count
+            start_row+=1
+    # work_sheet.ExportAsFixedFormat
+    wb.save(file_path)
+    wb.close()
+    with open(file_path, "rb") as excel:
+        data = excel.read()
+        excel.close()
+    response = excel_download_response(file_path, file_name, data)
+    return response
