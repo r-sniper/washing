@@ -125,7 +125,7 @@ def new_order(request, customer_id):
             current_price = float(request.POST.get('price'))
             print(current_price)
             order_obj = Order(customer=customer_obj, kg=kg, received_date=datetime.datetime.now(),
-                              price=current_price)
+                              price=current_price, status=1)
 
             order_obj.save()
 
@@ -145,6 +145,7 @@ def new_order(request, customer_id):
                 'price_json': json.dumps(price_json),
                 'message_type': 'success',
                 'message_title': 'Success',
+                'swal_redirect': '/',
                 'message': 'Order registered for customer ' + customer_obj.name,
                 'category': [cats[i:i + 2] for i in range(0, len(cats), 2)]
             })
