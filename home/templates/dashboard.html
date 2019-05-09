@@ -149,8 +149,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <input readonly class="form-control" value="{{ i }}"
-                                                       name="cloth_
-                                                               {{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                                       name="cloth_{{ forloop.parentloop.counter }}{{ forloop.counter }}">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -183,7 +182,7 @@
 {% block home_script %}
     <script>
 
-        setInterval(send_ajax, 5000);
+        setInterval(send_ajax, 100000);
 
         function send_ajax() {
             $.ajax({
@@ -302,7 +301,7 @@
 
                     let para = document.createElement('p');
                     para.setAttribute('class', 'card-text');
-                    para.innerHTML = "Name: " + json['washed_order'][order]['name'] + "<br/>Mobile: " + json['washed_order'][order]['mobile'] + "<br/>Delivery Date: " + json['washed_order'][order]['delivery_date'];
+                    para.innerHTML = "Name: " + json['washed_order'][order]['name'] + "<br/>Mobile: " + json['washed_order'][order]['mobile'] + "<br/>Order Date: " + json['washed_order'][order]['received_date'];
 
                     li.appendChild(heading);
                     li.appendChild(para);
@@ -321,7 +320,7 @@
             document.getElementById('order_pk').value = order_pk;
             $('#cloth_detail_modal').modal('show');
         }
-
+``
         function change_status(pk, new_status) {
             $.ajax({
                 url: '{% url 'home:change_status' %}',
@@ -356,13 +355,13 @@
 
 
             let modal_body = document.getElementById('modal_body');
-            modal_body.innerHTML = "<p>Receipt No: " + pk + "<br>Name: " + json[type][pk]['name'] + "<br>Mobile: " + json[type][pk]['mobile'] + "<br>Address: " + json[type][pk]['address'] + "<br>Status: " + status + "<br>Quantity: " + json[type][pk]['kg'];
+            modal_body.innerHTML = "<p>Receipt No: " + pk + "<br>Name: " + json[type][pk]['name'] + "<br>Mobile: " + json[type][pk]['mobile'] + "<br>Address: " + json[type][pk]['address'] + "<br>Status: " + status + "<br>Quantity: " + json[type][pk]['kg'] + "kg";
 
             let modal_footer = document.getElementById('modal_footer');
             if (type == 'received_order') {
                 modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="open_cloth_detail_modal(' + pk + ',' + json[type][pk]['customer_pk'] + ',\'' + json[type][pk]['name'] + '\')">Add Clothwise Details</button>';
             } else if (type == 'clothwise_order') {
-                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',3)">Change status to Washing</button>';
+                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',3)">Change status to Ready-to-Deliver</button>';
             } else if (type == 'washed_order') {
                 modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',4)">Change status to Delivered</button>';
             }

@@ -597,10 +597,14 @@ body {
 .hidden {
     visibility: hidden !important;
     overflow: hidden;
-    width: 0;
-    height: 0;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 .suggestion-wrap ul {
     margin-bottom: 0;
+}
+
+#search-wrap{
+    height: 0!important;
 }

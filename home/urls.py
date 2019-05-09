@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^general_excel/(?P<type>[\w]+)$', views.general_excel, name='general_excel'),
     url(r'^general_excel/$', views.general_excel, name='general_excel'),
 
+    url(r'^download_receipt/(?P<pk>[0-9]+)/$', views.download_receipt, name='download_receipt'),
 ]
