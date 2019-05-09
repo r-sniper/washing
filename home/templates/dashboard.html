@@ -361,7 +361,7 @@
             if (type == 'received_order') {
                 modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="open_cloth_detail_modal(' + pk + ',' + json[type][pk]['customer_pk'] + ',\'' + json[type][pk]['name'] + '\')">Add Clothwise Details</button>';
             } else if (type == 'clothwise_order') {
-                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',3)">Change status to Washing</button>';
+                modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',3)">Change status to Ready-to-Deliver</button>';
             } else if (type == 'washed_order') {
                 modal_footer.innerHTML = '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" onclick="change_status(' + pk + ',4)">Change status to Delivered</button>';
             }
