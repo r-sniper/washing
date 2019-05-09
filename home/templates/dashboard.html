@@ -149,7 +149,8 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <input readonly class="form-control" value="{{ i }}"
-                                                       name="cloth_{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                                       name="cloth_
+                                                               {{ forloop.parentloop.counter }}{{ forloop.counter }}">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -157,8 +158,7 @@
                                                 <input name="qty_{{ forloop.parentloop.counter }}{{ forloop.counter }}"
                                                        min="0"
                                                        pattern="^\d*(\.\d{0,2})?$"
-                                                       onkeyup="individual_kg();" type="number" class="form-control"
-                                                       value="0">
+                                                       onkeyup="individual_kg();" type="number" class="form-control">
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -320,7 +320,9 @@
             document.getElementById('order_pk').value = order_pk;
             $('#cloth_detail_modal').modal('show');
         }
-``
+
+        ``
+
         function change_status(pk, new_status) {
             $.ajax({
                 url: '{% url 'home:change_status' %}',
