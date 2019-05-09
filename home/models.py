@@ -28,7 +28,7 @@ class Order(models.Model):
     received_date = models.DateTimeField()
     delivery_date = models.DateTimeField(null=True, blank=True)
     price = models.FloatField()
-    status = models.IntegerField(default=1, max_length=1)
+    status = models.IntegerField(default=1)
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
